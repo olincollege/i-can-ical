@@ -20,6 +20,8 @@ def get_date(text):
     # import a function to add time
     from datetime import timedelta
 
+    from datetime import date
+
     # variable to keep track of if a time exists
     time_exist = True
 
@@ -85,6 +87,9 @@ def get_date(text):
         sep_check = re.search(sep_regex, time_extract, re.IGNORECASE)
         print("seperator check", sep_check)
 
+        # find the current year so that the date is correct
+        current_date = date.today()
+
         if sep_check is not None:
             start_time_regex = r"(?:\d+:?\d*\s*(?:am|pm)?\s*)(?=-|–|to)"
             end_time_regex = r"(?<=-|–|to)(?:\s*\d+:?\d*\s*(?:am|pm)?)"
@@ -97,16 +102,27 @@ def get_date(text):
             end_time = end_time[0]
 
             # create the start and end date
-            start_date = parse(date_extract[0] + " " + start_time)
-            end_date = parse(date_extract[0] + " " + end_time)
+            start_date = parse(date_extract[0] + " " + start_time, settings={'PREFER_DATES_FROM': 'future'})
+            end_date = parse(date_extract[0] + " " + end_time, settings={'PREFER_DATES_FROM': 'future'})
+
+            # make sure the year is current
+            start_date = start_date.replace(year = current_date.year)
+
+            end_date = end_date.replace(year = current_date.year)
 
             return [start_date,end_date]
 
         else:
             # if there is no end time create a 1 hour time slot
             start_time = time_extract
-            start_date = parse(date_extract[0] + " " + start_time)
+            start_date = parse(date_extract[0] + " " + start_time, settings={'PREFER_DATES_FROM': 'future'})
+
             end_date = start_date + timedelta(hours=1)
+
+            # make sure the year is current
+            start_date = start_date.replace(year = current_date.year)
+
+            end_date = end_date.replace(year = current_date.year)
 
             return [start_date,end_date]
     else:
