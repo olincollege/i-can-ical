@@ -34,7 +34,7 @@ def get_date(text):
     # attempt to find the times located in the body text
     try:
         time_extract = re.findall(time_regex, text, re.IGNORECASE)
-        date_extract = date_extract[0]
+        print(time_extract)
         # if the time is blank then there is no time
         if time_extract[0] == "":
             time_exist = False
@@ -44,12 +44,12 @@ def get_date(text):
 
     # create the regex for finding the date
     date_regex = r"(?:today)|(?:tomorrow)" +\
-        r"|(?:\w*\s?\d+,?\s?(?:th|nd|rd|st))|(?:\d+/\d+/?\d*)"
+        r"|(?:\w*\s?\d+\s?(?:th|nd|rd|st))|(?:\d+/\d+/?\d*)"
 
     # attempt to find the dates located in the body text
     try:
         date_extract = re.findall(date_regex, text, re.IGNORECASE)
-        date_extract = date_extract[0]
+        print(date_extract)
         # if the date is blank then there is no date
         if date_extract[0] == "":
             date_exist = False
@@ -57,19 +57,24 @@ def get_date(text):
         # if the code ran into an error there is no date
         date_exist = False
         date_extract = ""
-
+    print("time exist", time_exist)
     # if a time has been found
     if time_exist is True:
         # using the date, we want to find the time by closest proximity
+        print("date_exist", date_exist)
         if date_exist is True:
             date_index = text.index(date_extract[0])
+            print("date index", date_index)
             index_distances = []
             # find the index distance of each time in the list
-            for times in enumerate(time_extract):
+            for times in time_extract:
                 time_index = text.index(times)
+                print("time index", time_index)
                 index_distances.append(abs(date_index - time_index))
+            print("index distances", index_distances)
             #choose the closest proximity time to date
             time_extract = time_extract[index_distances.index(min(index_distances))]
+            print("minimum time distance", time_extract)
         else:
             # if there is no date just choose the first time
             time_extract = time_extract[0]
@@ -77,9 +82,10 @@ def get_date(text):
         # test if there is a seperator in the time
         sep_regex = r"(?:\d+:?\d*\s*(?:AM|PM)?\s*(?:-|–|to)" + \
         r"\s*\d+:?\d*\s*(?:AM|PM)?)"
-        sep_check = re.match(sep_regex, time_extract, re.IGNORECASE)
+        sep_check = re.search(sep_regex, time_extract, re.IGNORECASE)
+        print("seperator check", sep_check)
 
-        if sep_check is True:
+        if sep_check is not None:
             start_time_regex = r"(?:\d+:?\d*\s*(?:am|pm)?\s*)(?=-|–|to)"
             end_time_regex = r"(?<=-|–|to)(?:\s*\d+:?\d*\s*(?:am|pm)?)"
 
@@ -98,6 +104,7 @@ def get_date(text):
 
         else:
             # if there is no end time create a 1 hour time slot
+            start_time = time_extract
             start_date = parse(date_extract[0] + " " + start_time)
             end_date = start_date + timedelta(hours=1)
 
@@ -106,4 +113,6 @@ def get_date(text):
         # return a boolean showing that there is no date/time
         return False
 
-get_date("Boba party april 2nd 2022 at 4pm")
+test = get_date("Boba party april 2nd 2022 at 4pm")
+
+print(test)
