@@ -43,4 +43,4 @@ def create_ical(filepath, name, start_datetime, end_datetime, recipient, organiz
     f.close()
 
 # uncomment the following line and run this file to test it. I'd suggest changing the name of the file to make sure you can see what it did.     
-create_ical('/home/igoyal/i-can-ical/test_icals/potato_test.ics', 'Potato test', datetime(2022, 4, 27, 17, 0, 0, 0), datetime(2022, 4, 27, 20, 0, 0, 0), 'potatoes@post.com', organizer='Dr. Post')
+create_ical('../test_icals/potato_test.ics', 'Potato test', datetime(2022, 4, 27, 17, 0, 0, 0), datetime(2022, 4, 27, 20, 0, 0, 0), 'potatoes@post.com', organizer='Dr. Post')
