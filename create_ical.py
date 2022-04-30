@@ -38,4 +38,4 @@ def create_ical(filepath, name, start_datetime, end_datetime, organizer=None, lo
     f.close()
 
 # uncomment the following line and run this file to test it. I'd suggest changing the name of the file to make sure you can see what it did.     
-# create_ical('/home/igoyal/i-can-ical/test_icals/potato_cannon.ics', 'Potato Cannon', datetime(2022, 4, 27, 17, 0, 0, 0), datetime(2022, 4, 27, 20, 0, 0, 0), 'Dr. Post')
+create_ical('/home/malvinaclavering/i-can-ical/test_icals/potato_test.ics', 'Potato Test', datetime(2022, 4, 27, 17, 0, 0, 0), datetime(2022, 4, 27, 20, 0, 0, 0), 'Dr. Post')
