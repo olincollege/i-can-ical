@@ -92,7 +92,7 @@ def get_date(text):
 
         if sep_check is not None:
             start_time_regex = r"(?:\d+:?\d*\s*(?:am|pm)?\s*)(?=-|–|to)"
-            end_time_regex = r"(?<=-|–|to)(?:\s*\d+:?\d*\s*(?:am|pm)?)"
+            end_time_regex = r"(?:(?<=-)|(?<=–)|(?<=to))(?:\s*\d+:?\d*\s*(?:am|pm)?)"
 
             # take the time before the seperator
             start_time = re.findall(start_time_regex, time_extract, re.IGNORECASE)
@@ -129,6 +129,6 @@ def get_date(text):
         # return a boolean showing that there is no date/time
         return False
 
-test = get_date("Boba party april 2nd 2022 at 4pm")
+test = get_date("tomorrow from 4-6")
 
 print(test)
