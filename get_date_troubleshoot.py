@@ -29,9 +29,9 @@ def get_date(text):
     date_exist = True
 
     # create the regex for finding time
-    time_regex = r"(?:\d+:?\d*\s*(?:AM|PM)?\s*(?:-|–|to)\s*\d+:?\d*\s*(?:AM|PM)?)" +\
-    r"|(?:\d+:?\d*\s*(?:AM|PM))|" +\
-    r"(?<=at)\s*\d{1,2}:?\d*(?!.*(?:pm|am|-|–|to))"
+    time_regex = r"(?:\d+:?\d*\s*(?:AM|PM)" +\
+    r"?\s*(?:-|–|to)\s*\d+:?\d*\s*(?:AM|PM)?)" +\
+    r"|(?:\d+:?\d*(?:AM|PM))"
 
     # attempt to find the times located in the body text
     try:
