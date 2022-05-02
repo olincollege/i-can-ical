@@ -24,19 +24,24 @@ def create_ical(filepath, name, start_datetime, end_datetime, recipient, organiz
     """
 
     # you might need to create a calendar object to add the event object to
+    cal = ical.Calendar()
+    cal.add('prodid', '-//My calendar product//mxm.dk//')
+    cal.add('version', '3.0')
+    cal.add('attendee', 'MAILTO:igoyal@olin.edu')
 
     # creates an event object
     event = ical.Event()
     event.add('summary', name)
     # converts date and time to standard format. sets timezone as eastern.
-    event.add('dtstart', start_datetime)
+    event.add('dtstart', datetime(2022, 5, 10, 17, 0, 0, 0))
     event.add('dtend', end_datetime)
     event.add('organizer', organizer)
     event.add('location', ical.vText(location))
-    CRLF = '\r\n'
     attendee = ical.vCalAddress(recipient)
     attendee.params['ROLE'] = ical.vText('REQ-PARTICIPANT')
     event.add('attendee', attendee, encode=0)
+
+    cal.add_component(event)
 
     f = open(filepath, 'wb')
     f.write(event.to_ical())
@@ -45,4 +50,4 @@ def create_ical(filepath, name, start_datetime, end_datetime, recipient, organiz
     print("created")
 
 # uncomment the following line and run this file to test it. I'd suggest changing the name of the file to make sure you can see what it did.     
-create_ical('../test_icals/potato_test_two.ics', 'Potato test', datetime(2022, 5, 10, 17, 0, 0, 0), datetime(2022, 5, 10, 20, 0, 0, 0), 'potatoes@post.com', organizer='Dr. Post')
+create_ical('test_icals/potato_test_threee.ics', 'Potato test crying', datetime(2022, 5, 10, 17, 0, 0, 0), datetime(2022, 5, 10, 20, 0, 0, 0), 'potatoes@post.com', organizer='Dr. Post')

@@ -1,1 +1,4 @@
-# this will be the model of our code
+"""
+Model of i-can-cal. Model is the information that goes into making an ical.
+"""
+

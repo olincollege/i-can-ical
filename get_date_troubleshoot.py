@@ -1,3 +1,14 @@
+# import the regex package for searching for dates
+import re
+# import a function to convert strings to dates
+from dateparser import parse
+# import a function to add time
+from datetime import timedelta
+
+from datetime import date
+
+
+
 def set_am_pm(start_time, end_time):
     """
     Takes two strings representing hour increments and determines if they
@@ -11,7 +22,6 @@ def set_am_pm(start_time, end_time):
         A list of two containing the start and end time strings but with the
         proper period marcation at the end of them.
     """
-    import re
 
     # create an integer of the hour spot for comparison for both times
     start_int = int(re.findall(r"(?:\d{1,2})", start_time, re.IGNORECASE)[0])
@@ -110,14 +120,6 @@ def get_date(text):
         time date elements or the logical operator False if no time
         is found.
     """
-    # import the regex package for searching for dates
-    import re
-    # import a function to convert strings to dates
-    from dateparser import parse
-    # import a function to add time
-    from datetime import timedelta
-
-    from datetime import date
 
     # variable to keep track of if a time exists
     time_exist = True
@@ -215,7 +217,8 @@ def get_date(text):
             # if there is no end time create a 1 hour time slot
             start_time = time_extract
 
-            if "am" not in str.lower(start_time) or "pm" not in str.lower(start_time):
+
+            if "am" not in str.lower(start_time) and "pm" not in str.lower(start_time):
                 start_time += " pm"
 
             start_date = parse(date_extract[0] + " " + start_time, settings={'PREFER_DATES_FROM': 'future'})
