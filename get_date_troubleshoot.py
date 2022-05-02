@@ -1,3 +1,100 @@
+def set_am_pm(start_time, end_time):
+    """
+    Takes two strings representing hour increments and determines if they
+    should be am or pm.
+
+    Args:
+        start_time: a string representing the start of a time range
+        end_time: a string representing the end of a time range
+
+    Returns:
+        A list of two containing the start and end time strings but with the
+        proper period marcation at the end of them.
+    """
+    import re
+
+    # create an integer of the hour spot for comparison for both times
+    start_int = int(re.findall(r"(?:\d{1,2})", start_time, re.IGNORECASE)[0])
+    end_int = int(re.findall(r"(?:\d{1,2})", end_time, re.IGNORECASE)[0])
+
+    # create logical checks if the time is am or pm
+    is_am_start = "am" in str.lower(start_time)
+    is_pm_start = "pm" in str.lower(start_time)
+    is_am_pm_start = is_am_start is True or is_pm_start is True
+    is_am_end = "am" in str.lower(end_time)
+    is_pm_end = "pm" in str.lower(end_time)
+    is_am_pm_end = is_am_end is True or is_pm_end is True
+
+    # if either are missing an am or pm marker
+    while is_am_pm_start is False or is_am_pm_end is False:
+        # create logical checks if the time is am or pm
+        is_am_start = "am" in str.lower(start_time)
+        is_pm_start = "pm" in str.lower(start_time)
+        is_am_pm_start = is_am_start is True or is_pm_start is True
+        is_am_end = "am" in str.lower(end_time)
+        is_pm_end = "pm" in str.lower(end_time)
+        is_am_pm_end = is_am_end is True or is_pm_end is True
+        # check if there is one in end time but not the other
+        if is_am_pm_end is True and is_am_pm_start is False:
+            if is_am_end is True:
+                if start_int < end_int:
+                    start_time += " am"
+                else:
+                    start_time += " pm"
+            else:
+                if start_int < end_int:
+                    start_time += " pm"
+                else:
+                    start_time += " am"
+        # check if there is one in the start time but not other
+        if is_am_pm_end is False and is_am_pm_start is True:
+            if is_am_start is True:
+                if start_int < end_int:
+                    end_time += " am"
+                else:
+                    end_time += " pm"
+
+        # check if neither start or end time have am or pm
+        if is_am_pm_end is False and is_am_pm_start is False:
+            end_time += " pm"            # if either are missing an am or pm marker
+    while is_am_pm_start is False or is_am_pm_end is False:
+        # create logical checks if the time is am or pm
+        is_am_start = "am" in str.lower(start_time)
+        is_pm_start = "pm" in str.lower(start_time)
+        is_am_pm_start = is_am_start is True or is_pm_start is True
+        is_am_end = "am" in str.lower(end_time)
+        is_pm_end = "pm" in str.lower(end_time)
+        is_am_pm_end = is_am_end is True or is_pm_end is True
+        # check if there is one in end time but not the other
+        if is_am_pm_end is True and is_am_pm_start is False:
+            if is_am_end is True:
+                if start_int < end_int:
+                    start_time += " am"
+                else:
+                    start_time += " pm"
+            else:
+                if start_int < end_int:
+                    start_time += " pm"
+                else:
+                    start_time += " am"
+        # check if there is one in the start time but not other
+        if is_am_pm_end is False and is_am_pm_start is True:
+            if is_am_start is True:
+                if start_int < end_int:
+                    end_time += " am"
+                else:
+                    end_time += " pm"
+
+        # check if neither start or end time have am or pm
+        if is_am_pm_end is False and is_am_pm_start is False:
+            end_time += " pm"
+    return [start_time,end_time]
+
+
+
+
+
+
 def get_date(text):
     """
     Takes a string and finds the start and end time of an event
@@ -36,7 +133,6 @@ def get_date(text):
     # attempt to find the times located in the body text
     try:
         time_extract = re.findall(time_regex, text, re.IGNORECASE)
-        print(time_extract)
         # if the time is blank then there is no time
         if time_extract[0] == "":
             time_exist = False
@@ -46,60 +142,63 @@ def get_date(text):
 
     # create the regex for finding the date
     date_regex = r"(?:today)|(?:tomorrow)" +\
-        r"|(?:\w*\s?\d+\s?(?:th|nd|rd|st))|(?:\d+/\d+/?\d*)"
+        r"|(?:(?:apr|may|jun|jul|aug|sep|oct|nov|dec|jan|feb|mar)\w*\s*\d+)" +\
+        r"|(?:\d+/\d+/?\d*)"
 
     # attempt to find the dates located in the body text
     try:
         date_extract = re.findall(date_regex, text, re.IGNORECASE)
-        print(date_extract)
         # if the date is blank then there is no date
         if date_extract[0] == "":
             date_exist = False
+            date_extract = " "
     except:
         # if the code ran into an error there is no date
         date_exist = False
-        date_extract = ""
-    print("time exist", time_exist)
+        date_extract = " "
+
     # if a time has been found
     if time_exist is True:
         # using the date, we want to find the time by closest proximity
-        print("date_exist", date_exist)
         if date_exist is True:
             date_index = text.index(date_extract[0])
-            print("date index", date_index)
             index_distances = []
             # find the index distance of each time in the list
             for times in time_extract:
                 time_index = text.index(times)
-                print("time index", time_index)
                 index_distances.append(abs(date_index - time_index))
-            print("index distances", index_distances)
+
             #choose the closest proximity time to date
             time_extract = time_extract[index_distances.index(min(index_distances))]
-            print("minimum time distance", time_extract)
+
         else:
             # if there is no date just choose the first time
             time_extract = time_extract[0]
 
         # test if there is a seperator in the time
-        sep_regex = r"(?:\d+:?\d*\s*(?:AM|PM)?\s*(?:-|–|to)" + \
-        r"\s*\d+:?\d*\s*(?:AM|PM)?)"
-        sep_check = re.search(sep_regex, time_extract, re.IGNORECASE)
-        print("seperator check", sep_check)
+        sep_check = "-" in time_extract or "–" in time_extract or " to " in str.lower(time_extract)
 
         # find the current year so that the date is correct
         current_date = date.today()
 
-        if sep_check is not None:
+        if sep_check is True:
             start_time_regex = r"(?:\d+:?\d*\s*(?:am|pm)?\s*)(?=-|–|to)"
             end_time_regex = r"(?:(?<=-)|(?<=–)|(?<=to))(?:\s*\d+:?\d*\s*(?:am|pm)?)"
 
-            # take the time before the seperator
+            # take the time before the separator
             start_time = re.findall(start_time_regex, time_extract, re.IGNORECASE)
             start_time = start_time[0]
+
             # take the time after the seperator
             end_time = re.findall(end_time_regex, time_extract, re.IGNORECASE)
             end_time = end_time[0]
+
+            # now make sure both times have an am or pm
+            set_times = set_am_pm(start_time, end_time)
+
+            start_time = set_times[0]
+
+            end_time = set_times[1]
 
             # create the start and end date
             start_date = parse(date_extract[0] + " " + start_time, settings={'PREFER_DATES_FROM': 'future'})
@@ -115,6 +214,10 @@ def get_date(text):
         else:
             # if there is no end time create a 1 hour time slot
             start_time = time_extract
+
+            if "am" not in str.lower(start_time) or "pm" not in str.lower(start_time):
+                start_time += " pm"
+
             start_date = parse(date_extract[0] + " " + start_time, settings={'PREFER_DATES_FROM': 'future'})
 
             end_date = start_date + timedelta(hours=1)
@@ -129,6 +232,10 @@ def get_date(text):
         # return a boolean showing that there is no date/time
         return False
 
+<<<<<<< HEAD
 test = get_date("April 2 from 4-6pm")
+=======
+test = get_date("Babyshower Power Hour 8:55-9:55 pm 2NN EOM")
+>>>>>>> 1fc68855e701c313c4f458fafa66e8797cc64219
 
 print(test)
