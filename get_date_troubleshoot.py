@@ -151,10 +151,11 @@ def get_date(text):
         # if the date is blank then there is no date
         if date_extract[0] == "":
             date_exist = False
+            date_extract = " "
     except:
         # if the code ran into an error there is no date
         date_exist = False
-        date_extract = ""
+        date_extract = " "
 
     # if a time has been found
     if time_exist is True:
@@ -231,6 +232,6 @@ def get_date(text):
         # return a boolean showing that there is no date/time
         return False
 
-test = get_date("tomorrow from 2-4")
+test = get_date("Babyshower Power Hour 8:55-9:55 pm 2NN EOM")
 
 print(test)
