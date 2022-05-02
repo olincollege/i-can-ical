@@ -232,10 +232,6 @@ def get_date(text):
         # return a boolean showing that there is no date/time
         return False
 
-<<<<<<< HEAD
 test = get_date("April 2 from 4-6pm")
-=======
-test = get_date("Babyshower Power Hour 8:55-9:55 pm 2NN EOM")
->>>>>>> 1fc68855e701c313c4f458fafa66e8797cc64219
 
 print(test)
