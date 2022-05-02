@@ -1,7 +1,9 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email.message import EmailMessage
 import smtplib, ssl
-from create_ical import create_ical
+# from create_ical import create_ical
 import email
 import datetime
 
@@ -18,20 +20,31 @@ def send_invite(receiver, ical_path):
 
     subject = 'iCal for __event__'
     body = 'Hi there, you requested an ical for __event__.'
-    msg = MIMEMultipart('mixed')
+
+    # msg = EmailMessage()
+    # msg.set_content(body)
+
+    msg = MIMEMultipart()
+    msg.attach(MIMEText(body))
+    attachment = MIMEBase('application', "octet-stream")
+    with open(ical_path, "rb") as f:
+        data = f.read()
+    attachment.set_payload(data)
+    msg.attach(attachment)
+
     # time = datetime.now().strftime("%d/%m/%Y %H:%M")
     # msg['Date'] = time
-    msg['Subject'] = subject
-    msg['To'] = receiver
+    # msg['To'] = receiver
+    # msg['Subject'] = subject
 
-    part_email = MIMEText(body, 'html')
+    # part_email = MIMEText(body, 'html')
 
-    with open(ical_path, 'r') as f:
-        ical = f.read()
-    part_cal = MIMEText(ical, 'calendar;method=REQUEST')
+    # with open(ical_path, 'r') as f:
+    #     ical = f.read()
+    # part_cal = MIMEText(ical, 'calendar;method=REQUEST')
 
-    msg.attach(part_email)
-    msg.attach(part_cal)
+    # msg.attach(part_email)
+    # msg.attach(part_cal)
 
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
@@ -41,8 +54,11 @@ def send_invite(receiver, ical_path):
 
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender, password)
-        print("ical invite sent")
+        print("logged in")
         server.sendmail(sender, receiver, msg)
+        print("ical invite sent")
+
+    return
         
 
 send_invite('igoyal@olin.edu', 'test_icals/potato_test.ics')
