@@ -5,7 +5,7 @@ Use iCalendar package to create .ics file.
 import icalendar as ical
 from datetime import datetime # datetime is used when testing this code (currently commented out)
 
-def create_ical(filepath, name, start_datetime, end_datetime, recipient, organizer=None, location=None):
+def create_ical(filepath, name, start_datetime, end_datetime, recipient, organizer_email=None, location=None):
     """
     Take parsed data and turn it into an ical. The ical file will be saved [here].
 
@@ -23,7 +23,7 @@ def create_ical(filepath, name, start_datetime, end_datetime, recipient, organiz
         None
     """
 
-    # you might need to create a calendar object to add the event object to
+    # creates a calendar object that the event can then be added to
     cal = ical.Calendar()
     cal.add('prodid', '-//My calendar product//mxm.dk//')
     cal.add('version', '3.0')
@@ -32,22 +32,30 @@ def create_ical(filepath, name, start_datetime, end_datetime, recipient, organiz
     # creates an event object
     event = ical.Event()
     event.add('summary', name)
+
     # converts date and time to standard format. sets timezone as eastern.
-    event.add('dtstart', datetime(2022, 5, 10, 17, 0, 0, 0))
+    event.add('dtstart', start_datetime)
     event.add('dtend', end_datetime)
-    event.add('organizer', organizer)
-    event.add('location', ical.vText(location))
+    event.add('dtstamp', datetime.today()) # the time the calendar event was created
+
+    organizer = ical.vCalAddress(organizer_email) # consider the case where there is no organizer (what happens if organizer_address = None?)
+    event['organizer'] = organizer
+    event['location'] = ical.vText(location)
+
+    # sets recipient/attendee
     attendee = ical.vCalAddress(recipient)
     attendee.params['ROLE'] = ical.vText('REQ-PARTICIPANT')
     event.add('attendee', attendee, encode=0)
 
+    # adds event to calendar
     cal.add_component(event)
 
+    # converts information to ical format
     f = open(filepath, 'wb')
-    f.write(event.to_ical())
+    f.write(cal.to_ical())
     f.close()
 
     print("created")
 
 # uncomment the following line and run this file to test it. I'd suggest changing the name of the file to make sure you can see what it did.     
-create_ical('test_icals/potato_test_threee.ics', 'Potato test crying', datetime(2022, 5, 10, 17, 0, 0, 0), datetime(2022, 5, 10, 20, 0, 0, 0), 'potatoes@post.com', organizer='Dr. Post')
+create_ical('test_icals/wood_swallow.ics', 'Softdes Project Test (Wood Swallow)', datetime(2022, 5, 10, 17, 0, 0, 0), datetime(2022, 5, 10, 20, 0, 0, 0), 'ppost@olin.edu', organizer_email='Dr. Post')

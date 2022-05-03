@@ -1,12 +1,9 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
-from email.message import EmailMessage
 import email.encoders
 import smtplib, ssl
-# from create_ical import create_ical
 import email
-import datetime
 
 def send_invite(receiver, ical_path):
     """
@@ -50,19 +47,4 @@ def send_invite(receiver, ical_path):
     return
         
 
-send_invite('igoyal@olin.edu', 'test_icals/potato_test_two.ics')
-
-
-    # time = datetime.now().strftime("%d/%m/%Y %H:%M")
-    # msg['Date'] = time
-    # msg['To'] = receiver
-    # msg['Subject'] = subject
-
-    # part_email = MIMEText(body, 'html')
-
-    # with open(ical_path, 'r') as f:
-    #     ical = f.read()
-    # part_cal = MIMEText(ical, 'calendar;method=REQUEST')
-
-    # msg.attach(part_email)
-    # msg.attach(part_cal)
+send_invite('igoyal@olin.edu', 'test_icals/wood_swallow.ics')
