@@ -53,16 +53,27 @@ def set_am_pm(start_time, end_time):
 
     # if either are missing an am or pm marker
     while is_am_pm_start is False or is_am_pm_end is False:
-        # create logical checks if the time is am or pm
+        # create logical checks if the time is am or pm in loop so they are updated
         is_am_start = "am" in str.lower(start_time)
         is_pm_start = "pm" in str.lower(start_time)
         is_am_pm_start = is_am_start is True or is_pm_start is True
         is_am_end = "am" in str.lower(end_time)
         is_pm_end = "pm" in str.lower(end_time)
         is_am_pm_end = is_am_end is True or is_pm_end is True
+
         # check if there is one in end time but not the other
         if is_am_pm_end is True and is_am_pm_start is False:
-            if is_am_end is True:
+            if start_int == 12:
+                if is_pm_end is True:
+                    start_time += " pm"
+                else:
+                    start_time += " am"
+            elif end_int == 12:
+                if is_pm_end is True:
+                    start_time += " am"
+                else:
+                    start_time += " pm"
+            elif is_am_end is True:
                 if start_int < end_int:
                     start_time += " am"
                 else:
@@ -72,48 +83,40 @@ def set_am_pm(start_time, end_time):
                     start_time += " pm"
                 else:
                     start_time += " am"
-        # check if there is one in the start time but not other
+
+        # check if there is one in the start time but not the end
         if is_am_pm_end is False and is_am_pm_start is True:
-            if is_am_start is True:
+            if end_int == 12:
+                if is_pm_start == True:
+                    end_time += " am"
+                else:
+                    end_time += " pm"
+            elif start_int == 12:
+                if is_pm_start == True:
+                    end_time += " pm"
+                else:
+                    end_time += " am"
+            elif is_am_start is True:
                 if start_int < end_int:
                     end_time += " am"
                 else:
                     end_time += " pm"
-
-        # check if neither start or end time have am or pm
-        if is_am_pm_end is False and is_am_pm_start is False:
-            end_time += " pm"            # if either are missing an am or pm marker
-    while is_am_pm_start is False or is_am_pm_end is False:
-        # create logical checks if the time is am or pm
-        is_am_start = "am" in str.lower(start_time)
-        is_pm_start = "pm" in str.lower(start_time)
-        is_am_pm_start = is_am_start is True or is_pm_start is True
-        is_am_end = "am" in str.lower(end_time)
-        is_pm_end = "pm" in str.lower(end_time)
-        is_am_pm_end = is_am_end is True or is_pm_end is True
-        # check if there is one in end time but not the other
-        if is_am_pm_end is True and is_am_pm_start is False:
-            if is_am_end is True:
-                if start_int < end_int:
-                    start_time += " am"
-                else:
-                    start_time += " pm"
             else:
                 if start_int < end_int:
-                    start_time += " pm"
-                else:
-                    start_time += " am"
-        # check if there is one in the start time but not other
-        if is_am_pm_end is False and is_am_pm_start is True:
-            if is_am_start is True:
-                if start_int < end_int:
-                    end_time += " am"
-                else:
                     end_time += " pm"
+                else:
+                    end_time += " am"
 
         # check if neither start or end time have am or pm
         if is_am_pm_end is False and is_am_pm_start is False:
-            end_time += " pm"
+            if start_int == 12:
+                start_time += " pm"
+            elif end_int == 12:
+                end_time += " pm"
+            else:
+                # if either are missing an am or pm marker
+                end_time += " pm"
+
     return [start_time,end_time]
 
 
