@@ -1,4 +1,6 @@
-## Welcome to GitHub Pages
+# i-can-ical
+## an interactive automated calendar creator
+### Brought to you by Isha Goyal, Malvina Clavering, and Philip Post
 
 You can use the [editor on GitHub](https://github.com/olincollege/i-can-ical/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
 
