@@ -235,6 +235,6 @@ def get_date(text):
         # return a boolean showing that there is no date/time
         return False
 
-test = get_date("April 2 from 4-6pm")
+test = get_date("Friday from 8-12")
 
 print(test)
