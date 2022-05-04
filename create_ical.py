@@ -4,8 +4,10 @@ Use iCalendar package to create .ics file.
 
 import icalendar as ical
 from datetime import datetime # datetime is used when testing this code (currently commented out)
+import icanical_model
 
-def create_ical(filepath, name, start_datetime, end_datetime, recipient, organizer_email=None, location=None):
+# replaced all these parameters with model. if it doesn't end up working, just change them back. parameters: , name, start_datetime, end_datetime, recipient, organizer_email=None, location=None
+def create_ical(filepath, model):
     """
     Take parsed data and turn it into an ical. The ical file will be saved [here].
 
@@ -22,6 +24,14 @@ def create_ical(filepath, name, start_datetime, end_datetime, recipient, organiz
     Returns: 
         None
     """
+    # pulls information from the model and sets them to convenient variables
+    name = model.name()
+    start_datetime = model.start()
+    end_datetime = model.end()
+    recipient = model.attendee()
+    organizer_email = model.organizer()
+    location = model.location()
+
 
     # creates a calendar object that the event can then be added to
     cal = ical.Calendar()
