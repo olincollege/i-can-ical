@@ -1,8 +1,10 @@
 # i-can-ical
-## an interactive automated calendar creator
+## An interactive automated calendar creator
 ### Brought to you by Isha Goyal, Malvina Clavering, and Philip Post
 
-You can use the [editor on GitHub](https://github.com/olincollege/i-can-ical/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+Have you ever been frustrated by the process of receiving an email about an event and a time, say "Tuesday at 1pm", then having to manually copy all that information into your Outlook calendar at risk of misremembering? Was it Tuesday or Thursday? Why can't people just send an ical? Well now you no longer need to preach the wondrous convenience of ical invites to all these senders of emails, you can just request one from our magical assistant. The i-can-ical program can read through any email and extract the date and time for an event, and will then automatically send you an ical with the correct information. All you need to do is hit accept to add it to your calendar. No tedious copying necessary!
+
+
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
