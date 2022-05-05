@@ -4,7 +4,7 @@ The view for ican ical.
 from create_ical import create_ical
 from send_invite import send_invite
 
-class view():
+class View():
     """
     The view for ican ical draws from the model to create and send an ics file
     to the user.

@@ -12,7 +12,7 @@ from dateparser import parse
 from datetime import timedelta
 from datetime import date
 
-class controller():
+class Controller():
     """
     Controller for our python code.
 
@@ -21,9 +21,42 @@ class controller():
     """
 
     def __init__(self):
-        _sender = input('Input sender\'s name or email address')
-        _header = input('Input header of event (or subject line of email).')
-        _body = input('Input body text of email. Make sure it includes a date/time.')
+        self._sender = input('Input sender\'s name or email address')
+        self._header = input('Input header of event (or subject line of email).')
+        self._body = input('Input body text of email. Make sure it includes a date/time.')
+
+    # defines a property so header and sender can be accessed later
+    @property
+    def sender(self):
+        return self._sender
+
+    @property
+    def header(self):
+        return self._header
+
+    # does this function also account for start and end times, or only dates? also, how do we incorporate the am/pm stuff? 
+    def datetimes(self):
+        """
+        Returns the starting and ending date and time found in the text.
+
+        Args: 
+            self: controller object (does not need to be explicitly called).
+
+        Returns: 
+            Either a list of 2 elements containing the start and end date
+            time date elements or the logical operator False if no time
+            is found.
+        """
+        # calls get_date to find the date from the body text
+        date = get_date(self._body)
+
+        # if the body doesn't have a date in it, checks the header for a date
+        if date==False:
+            date = get_date(self._header)
+
+        return date
+
+
 
 def set_am_pm(start_time, end_time):
     """
@@ -118,11 +151,6 @@ def set_am_pm(start_time, end_time):
                 end_time += " pm"
 
     return [start_time,end_time]
-
-
-
-
-
 
 def get_date(text):
     """
