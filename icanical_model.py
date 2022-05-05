@@ -3,7 +3,7 @@ Model of i-can-cal. It holds the attributes of an event, which can then be used
 to create and send an ical.
 """
 
-class model():
+class Model():
     """
     Model that holds event information.
 
