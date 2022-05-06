@@ -111,17 +111,14 @@ def get_mail():
             if part.get_content_type() == "text/plain":
                 body = part.get_payload(decode=True)
                 body = str(email.message_from_bytes(body))
-
+    # Since forwarded emails have an extra date, we need regex to remove them
+    body = re.sub(r"From:[\s\S]*Subject:", "", body, re.IGNORECASE)
     try:
         # if the email has a body this should work fine
         return[subject, sender, body]
     except:
         # if body does not exist return None in its place
         return[subject, sender, None]
-
-
-
-
 
 test = get_mail()
 print(test)
