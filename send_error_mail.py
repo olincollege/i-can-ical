@@ -1,17 +1,15 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib, ssl
-import email
 
 def send_error_mail():
     """
     Send an email informing the user that an ical couldn't be created. 
     """
-    receiver = model.recipient
     sender = "youcanical@gmail.com"
 
     subject = f'iCal could not be created' # add in a line to actually use the subject
-    body = f'Hi, we could not create an ical for {model.name}. Please make sure\
+    body = f'Hi, we could not create an ical for your event. Please make sure\
         your email contains either a date or time.'
 
     msg = MIMEMultipart()
