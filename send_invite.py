@@ -5,16 +5,18 @@ import email.encoders
 import smtplib, ssl
 import email
 
-def send_invite(ical_path, model):
+def send_invite(ical_path, model, username, password):
     """
-    Send an event as a calendar invitation. 
+    Send an event as a calendar invitation.
 
-    Args: 
-        receiver: a string with the recieving email address
+    Args:
         ical_path: a string representing the path to the ical file
+        model: a model class that stores all of the information needed to create an ical
+        username: a string representing an email username
+        password: a string representing an email password
     """
     receiver = model.recipient
-    sender = "youcanical@gmail.com"
+    sender = username
 
     subject = f'iCal for {model.name}' # add in a line to actually use the subject
     body = f'Hi there, you requested an ical for {model.name}.'
@@ -33,7 +35,7 @@ def send_invite(ical_path, model):
 
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
-    password = 'uehiuheiufhureihweui34297238974898hdioj3hui4wehdogwalkedthedock' #input("Type your password and press enter: ")
+    password = password
 
     context = ssl.create_default_context()
 
@@ -43,6 +45,4 @@ def send_invite(ical_path, model):
         server.sendmail(sender, receiver, text)
 
     return
-        
 
-# send_invite('igoyal@olin.edu', 'test_icals/wood_swallow.ics')

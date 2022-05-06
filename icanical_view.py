@@ -10,9 +10,11 @@ class View():
     to the user.
     """
 
-    def __init__(self, model):
+    def __init__(self, model, username, password):
         self._model = model
-        
+        self._username = username
+        self._password = password
+
         # all icals will be created at this filepath so that we're not storing
         # icals for old events
         self._filepath = f'test_icals/actual_ical.ics'
@@ -23,5 +25,5 @@ class View():
         sends the ical.
         """
         create_ical(self._filepath, self._model)
-        send_invite(self._filepath, self._model)
-        print('done')
+        send_invite(self._filepath, self._model, self._username, self._password)
+        print('ical invite sent')

@@ -24,8 +24,8 @@ class Controller():
     model.
     """
 
-    def __init__(self):
-        [header, sender, body] = get_mail()
+    def __init__(self, username, password):
+        [header, sender, body] = get_mail(username, password)
         self._recipient = sender
         self._header = header
         self._body = body
@@ -288,26 +288,25 @@ def get_date(text):
         # return a boolean showing that there is no date/time
         return False
 
-def get_mail():
+def get_mail(username, password):
     """
     Searches for a new email in the youcanical@gmail.com inbox and decodes
     the received email's subject, sender, and body.
 
+    Args:
+        username: a string representing an email username
+        password: a string representing an email password
     Returns:
         A list containing three strings representing the subject,
         sender, and body. If there is no body, a list containing subject,
         sender, and None will be returned.
     """
-    # define the email of the bot
-    _email_user = "youcanical@gmail.com"
-    # define the password of the bot
-    _email_pass = "uehiuheiufhureihweui34297238974898hdioj3hui4wehdogwalkedthedock"
 
     # define the encrypted connection path to gmail
     mail = imaplib.IMAP4_SSL("imap.gmail.com", port = 993)
 
     # login to the gmail account
-    mail.login(_email_user, _email_pass)
+    mail.login(username, password)
 
 
     # select the folder we want to read mail from
@@ -362,7 +361,7 @@ def get_mail():
             mail = imaplib.IMAP4_SSL("imap.gmail.com", port = 993)
 
             # login to the gmail account
-            mail.login(_email_user, _email_pass)
+            mail.login(username, password)
             # select the folder we want to read mail from
             mail.select('Inbox')
 
