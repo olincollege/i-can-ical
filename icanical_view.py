@@ -12,13 +12,16 @@ class View():
 
     def __init__(self, model):
         self._model = model
-        self._filepath = f'test_icals/{model.name}.ics'
+        
+        # all icals will be created at this filepath so that we're not storing
+        # icals for old events
+        self._filepath = f'test_icals/actual_ical.ics'
 
     def send_ical(self):
         """
         Creates an ical based on the information in the model object. Then
         sends the ical.
         """
-        create_ical()
-        send_invite()
+        create_ical(self._filepath, self._model)
+        send_invite(self._filepath, self._model)
         print('done')

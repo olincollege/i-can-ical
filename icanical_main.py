@@ -5,13 +5,20 @@ The ican ical main which ties together the controller, model, and view.
 import icanical_controller
 import icanical_model
 import icanical_view
+from send_error_mail import send_error_mail
 
-def __main__(recipient, location=None): # this will probably take a parameter at some point (depending on how we input info to our controller)
+def main(): # this will probably take a parameter at some point (depending on how we input info to our controller)
     controller = icanical_controller.Controller()
-    start_time = controller.datetimes()[0]
-    end_time = controller.datetimes()[1]
+    try:
+        start_time = controller.datetimes()[0]
+        end_time = controller.datetimes()[1]
+    except:
+        send_error_mail(controller.recipient)
 
-    model = icanical_model.Model(controller.header(), start_time, end_time, recipient, controller.sender(), location=location)
+    event = icanical_model.Model(controller.header, start_time, end_time, controller.recipient)
     
-    view = icanical_view.View(model)
+    view = icanical_view.View(event)
     view.send_ical()
+
+if __name__ == "__main__":
+    main()

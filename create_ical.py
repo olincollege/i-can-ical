@@ -17,20 +17,15 @@ def create_ical(filepath, model):
         start_datetime: a datetime object specifying the date and time event starts.
         end_datetime:  a datetime specifying the date and time event ends.
         recipient: a string of the recipient's email address
-        organizer (optional): string specifying the organizer of the event (often sender
-            of the email).
-        location (optional): string with the location of the event.
     
     Returns: 
         None
     """
     # pulls information from the model and sets them to convenient variables
-    name = model.name()
-    start_datetime = model.start()
-    end_datetime = model.end()
-    recipient = model.attendee()
-    organizer_email = model.organizer()
-    location = model.location()
+    name = model.name
+    start_datetime = model.start
+    end_datetime = model.end
+    recipient = model.recipient
 
 
     # creates a calendar object that the event can then be added to
@@ -48,14 +43,10 @@ def create_ical(filepath, model):
     event.add('dtend', end_datetime)
     event.add('dtstamp', datetime.today()) # the time the calendar event was created
 
-    organizer = ical.vCalAddress(organizer_email) # consider the case where there is no organizer (what happens if organizer_address = None?)
-    event['organizer'] = organizer
-    event['location'] = ical.vText(location)
-
     # sets recipient/attendee
     attendee = ical.vCalAddress(recipient)
     attendee.params['ROLE'] = ical.vText('REQ-PARTICIPANT')
-    event.add('attendee', attendee, encode=0)
+    event.add('attendee', recipient, encode=0)
 
     # adds event to calendar
     cal.add_component(event)
@@ -68,4 +59,4 @@ def create_ical(filepath, model):
     print("created")
 
 # uncomment the following line and run this file to test it. I'd suggest changing the name of the file to make sure you can see what it did.     
-create_ical('test_icals/wood_swallow.ics', 'Softdes Project Test (Wood Swallow)', datetime(2022, 5, 10, 17, 0, 0, 0), datetime(2022, 5, 10, 20, 0, 0, 0), 'ppost@olin.edu', organizer_email='Dr. Post')
+# create_ical('test_icals/wood_swallow.ics', 'Softdes Project Test (Wood Swallow)', datetime(2022, 5, 10, 17, 0, 0, 0), datetime(2022, 5, 10, 20, 0, 0, 0), 'ppost@olin.edu')

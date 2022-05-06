@@ -5,7 +5,7 @@ import email.encoders
 import smtplib, ssl
 import email
 
-def send_invite(receiver, ical_path):
+def send_invite(ical_path, model):
     """
     Send an event as a calendar invitation. 
 
@@ -13,11 +13,11 @@ def send_invite(receiver, ical_path):
         receiver: a string with the recieving email address
         ical_path: a string representing the path to the ical file
     """
-
+    receiver = model.recipient
     sender = "youcanical@gmail.com"
 
-    subject = 'iCal for __event__'
-    body = 'Hi there, you requested an ical for __event__.'
+    subject = f'iCal for {model.name}' # add in a line to actually use the subject
+    body = f'Hi there, you requested an ical for {model.name}.'
 
     msg = MIMEMultipart()
 
@@ -39,12 +39,10 @@ def send_invite(receiver, ical_path):
 
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender, password)
-        print("logged in")
         text = msg.as_string()
         server.sendmail(sender, receiver, text)
-        print("ical invite sent")
 
     return
         
 
-send_invite('igoyal@olin.edu', 'test_icals/wood_swallow.ics')
+# send_invite('igoyal@olin.edu', 'test_icals/wood_swallow.ics')

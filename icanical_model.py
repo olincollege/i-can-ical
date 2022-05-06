@@ -11,13 +11,11 @@ class Model():
 
     """
 
-    def __init__(self, event_name, start_datetime, end_datetime, attendee_email, organizer_email=None, location=None):
+    def __init__(self, event_name, start_datetime, end_datetime, recipient_email):
         self._name = event_name
         self._start_datetime = start_datetime
         self._end_datetime = end_datetime
-        self._attendee = attendee_email
-        self._organizer = organizer_email
-        self._location = location
+        self._recipient = recipient_email
 
     # defined below are a list of properties so that these values can be accessed but not changed by other functions
     @property
@@ -33,14 +31,7 @@ class Model():
         return self._end_datetime
     
     @property
-    def attendee(self):
-        return self._attendee
+    def recipient(self):
+        return self._recipient
 
-    @property
-    def organizer(self):
-        return self._organizer
-
-    @property
-    def location(self):
-        return self._location
     
