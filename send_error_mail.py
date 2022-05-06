@@ -2,9 +2,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib, ssl
 
-def send_error_mail():
+def send_error_mail(receiver):
     """
-    Send an email informing the user that an ical couldn't be created. 
+    Send an email informing the user that an ical couldn't be created.
     """
     sender = "youcanical@gmail.com"
 

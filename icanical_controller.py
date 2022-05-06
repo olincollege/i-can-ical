@@ -44,10 +44,10 @@ class Controller():
         """
         Returns the starting and ending date and time found in the text.
 
-        Args: 
+        Args:
             self: controller object (does not need to be explicitly called).
 
-        Returns: 
+        Returns:
             Either a list of 2 elements containing the start and end date
             time date elements or the logical operator False if no time
             is found.
