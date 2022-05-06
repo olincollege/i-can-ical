@@ -1,4 +1,4 @@
-layout: page
+layout: index
 title: "Setup Instructions"
 permalink: /setup-instructions/
 
