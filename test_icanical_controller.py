@@ -1,21 +1,24 @@
 """
 Unit tests for the get_date method of the controller class.
 """
+import io
 import pytest
 from datetime import date
 from datetime import datetime
 from icanical_controller import get_date
+from icanical_controller import Controller
 
 this_year = date.today().year
+this_month = date.today().month
 today = date.today().day
 time_to_tues = abs(1-date.today().weekday())
 next_tuesday = date.today().day + time_to_tues
 time_to_fri = abs(4-date.today().weekday())
 next_friday = date.today().day + time_to_fri
 
-# Test cases
-input_case_no_date = ("You're invited!", "About 4-5", "This is a message")
 
+# Test cases
+input_case_no_date_time = ("You're invited!", "About 4-5 people", "This is a message")
 expected_no_date = (False)
 
 input_case_no_time = ( 
@@ -26,6 +29,18 @@ input_case_no_time = (
     "01/01/2022",
     "1/1/22")
 expected_no_time = (False)
+
+input_case_no_date = ("Happening at 3", "4-5 seats open at 10am", "In 6 minutes",
+    "From 10-12")
+expected_no_date = (
+    [datetime(this_year, this_month, today, 15, 0), 
+    datetime(this_year, this_month, today, 15, 0)],
+    [datetime(this_year, this_month, today, 10, 0), 
+    datetime(this_year, this_month, today, 11, 0)],
+    False
+    [datetime(this_year, this_month, today, 10, 0), 
+    datetime(this_year, this_month, today, 12, 0)])
+
 input_case_no_period = (
     "December 12 at 4",
     "December 12 at 4",
@@ -93,8 +108,20 @@ expected_relative_time = (
     datetime(this_year, today, 17, 0)],
 )
 
+@pytest.fixture
+def test_cases():
+    return [input_case_no_date_time, input_case_no_time, input_case_no_period,
+            input_case_one_period, input_two_periods, input_relative_time]
+
+@pytest.fixture
+def expected_outputs():
+    return [expected_no_date, expected_no_time, expected_no_period,
+            expected_one_period, expected_two_periods,
+            expected_relative_time]
+
+
 # Run test cases
-def test_no_date(input_case_no_date, expected_no_date):
+def test_no_date(test_cases, monkeypatch):
     """
     Test the get_date function for cases where no date is given.
 
@@ -102,8 +129,11 @@ def test_no_date(input_case_no_date, expected_no_date):
         input_case_no_date: strings containing no date.
         expected_no_date: expected output of the funtion, False.
     """
-    for case in input_case_no_date:
-        assert get_date(case) == expected_no_date
+    controller = Controller()
+    no_date_input = test_cases[1]
+    monkeypatch.setattr("sys.stdin", io.StringIO(no_date_input))
+    for case in no_date_input:
+        controller.datetimes()
 
 def test_no_time(input_case_no_time, expected_no_time):
     """

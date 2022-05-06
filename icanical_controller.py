@@ -24,11 +24,10 @@ class Controller():
     model.
     """
 
-    def __init__(self, username, password):
-        [header, sender, body] = get_mail(username, password)
-        self._recipient = sender
-        self._header = header
-        self._body = body
+    def __init__(self):
+        self._recipient = None
+        self._header = None
+        self._body = None
 
     # defines a property so header and sender can be accessed later
     @property
@@ -61,6 +60,26 @@ class Controller():
             date = get_date(self._header)
 
         return date
+
+    def check_inbox(self, username, password):
+        """
+        Run the get_mail funtion to start searching for new emails, read new
+        email to extract header, sender and body as strings. Assign these to the
+        recipient, header and body strings.
+        
+        Args:
+            username: string that is the username of the ical creator's account.
+            password: a string that is the password of the ical creator's
+                account.
+        Returns:
+            a list with email header, sender, and body as strings.
+        """
+        [header, sender, body] = get_mail(username, password)
+        self._header = header
+        self._recipient = sender
+        self._body = body
+        return [header, sender, body]
+
 
 
 # helper function for get_date
