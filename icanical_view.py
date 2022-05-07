@@ -1,22 +1,22 @@
 """
 The view for ican ical.
 """
-
+from datetime import datetime
+import email
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 import email.encoders
-import smtplib, ssl
-import email
+import smtplib
+import ssl
 import icalendar as ical
-from datetime import datetime
 
 class View():
     """
     The view for ican-ical draws from the model to create and send an ics file
     to the user.
 
-    It relies on helper functions create_ical() and send_invite(). 
+    It relies on helper functions create_ical() and send_invite().
 
     Attributes:
         _model: an icanical Model object that represents the event
@@ -31,7 +31,7 @@ class View():
 
         # all icals will be created at this filepath so that it's not storing
         # icals for old events
-        self._filepath = f'test_icals/actual_ical.ics'
+        self._filepath = 'test_icals/actual_ical.ics'
 
     def send_ical(self):
         """
@@ -84,14 +84,13 @@ def create_ical(filepath, model):
     cal.add_component(event)
 
     # opens file, converts information to ical format, and closes file
-    f = open(filepath, 'wb')
-    f.write(cal.to_ical())
-    f.close()
+    with open(filepath, 'wb') as file:
+        file.write(cal.to_ical())
 
     # now the ics file has been created at the specified filepath
     # the function doesn't return anything
 
-def send_invite(ical_path, model, username, password):
+def send_invite(ical_path, model, sender, password):
     """
     Send an event as a calendar invitation.
 
@@ -99,13 +98,9 @@ def send_invite(ical_path, model, username, password):
         ical_path: a string representing the path to the ical file
         model: a model class that stores all of the information needed to
             create an ical
-        username: a string representing an email username
+        sender: a string representing an email username
         password: a string representing an email password
     """
-    # creates convenient variables
-    receiver = model.recipient
-    sender = username
-
     # some data cleaning to avoid having Fw: as part of the event's name
     name = model.name.replace('Fw: ', '')
 
@@ -138,12 +133,10 @@ def send_invite(ical_path, model, username, password):
     # setup email server
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
-    password = password
-
     context = ssl.create_default_context()
 
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender, password) # login to the bot's email account
         # converts message back to string so that it's readable in the email
         text = msg.as_string()
-        server.sendmail(sender, receiver, text) # sends the mail
+        server.sendmail(sender, model.recipient, text) # sends the mail

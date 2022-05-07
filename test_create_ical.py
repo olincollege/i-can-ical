@@ -1,15 +1,21 @@
-import create_ical
+"""
+Testing file for the create_ical() function.
+
+Unit tests to make sure some necessary components and syntax are part of the
+.ics file the method creates.
+"""
+
+from icanical_view import create_ical
 import icanical_model
-import icalendar
 from datetime import datetime
 
-path = '../test_icals/unit_test.ics'
+PATH = '../test_icals/unit_test.ics'
 
 model = icanical_model.Model('Python Unit Testing', datetime(2022, 5, 5, 10),\
      datetime(2022, 5, 5, 11), 'igoyal@olin.edu')
-test_case = create_ical.create_ical(path, model)
+test_case = create_ical.create_ical(PATH, model)
 
-with open(path, 'r') as file:
+with open(PATH, 'r') as file:
     text = file.readlines()
 
 desired_output = ['BEGIN:VCALENDAR\n', 'END:VCALENDAR\n']
@@ -28,8 +34,8 @@ def test_vEvent():
     Make sure that the ical includes the begin and end vEvent lines.
     """
 
-    assert ('BEGIN:VEVENT\n' in text) == True
-    assert ('END:VEVENT\n' in text) == True
+    assert 'BEGIN:VEVENT\n' in text
+    assert 'END:VEVENT\n' in text
 
 def loop_through_ical(word):
     """
@@ -54,7 +60,7 @@ def test_key_elements():
     loop_through_ical(). Checks for start and end time and that attendee exists.
     """
 
-    assert loop_through_ical('DTSTART') == True
-    assert loop_through_ical('DTEND') == True
-    assert loop_through_ical('ATTEND') == True
+    assert loop_through_ical('DTSTART')
+    assert loop_through_ical('DTEND')
+    assert not loop_through_ical('ATTEND')
     

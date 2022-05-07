@@ -19,26 +19,26 @@ next_friday = date.today().day + time_to_fri
 
 # Test cases
 input_case_no_date_time = ("You're invited!", "About 4-5 people", "This is a message")
-expected_no_date = (False)
+EXPECTED_NO_DATE = (False)
 
-input_case_no_time = ( 
+input_case_no_time = (
     "Tomorrow",
     "January 1st",
     "January 1",
     "January 1-2",
     "01/01/2022",
     "1/1/22")
-expected_no_time = (False)
+EXPECTED_NO_TIME = (False)
 
 input_case_no_date = ("Happening at 3", "4-5 seats open at 10am", "In 6 minutes",
     "From 10-12")
-expected_no_date = (
-    [datetime(this_year, this_month, today, 15, 0), 
+EXPECTED_NO_DATE = (
+    [datetime(this_year, this_month, today, 15, 0),
     datetime(this_year, this_month, today, 15, 0)],
-    [datetime(this_year, this_month, today, 10, 0), 
+    [datetime(this_year, this_month, today, 10, 0),
     datetime(this_year, this_month, today, 11, 0)],
     False
-    [datetime(this_year, this_month, today, 10, 0), 
+    [datetime(this_year, this_month, today, 10, 0),
     datetime(this_year, this_month, today, 12, 0)])
 
 input_case_no_period = (
@@ -46,7 +46,7 @@ input_case_no_period = (
     "December 12 at 4",
     "December 12 from 11 to 3")
 expected_no_period = (
-    [datetime(this_year, 12, 12, 16, 0), 
+    [datetime(this_year, 12, 12, 16, 0),
     datetime(this_year, 12, 12, 17, 0)],\
     [datetime(this_year, 12, 12, 11, 0),\
     datetime(this_year, 12, 12, 15, 0)],
@@ -79,7 +79,7 @@ input_two_periods = (
 expected_two_periods = (
     [datetime(this_year, 1, 1, 10, 0),
     datetime(this_year, 1, 1, 15, 0)],
-    [datetime(this_year, 12, 12, 10, 0), 
+    [datetime(this_year, 12, 12, 10, 0),
     datetime(this_year, 12, 12, 11, 0)],
     [datetime(this_year, 1, 1, 8, 0),
     datetime(this_year, 1, 1, 15, 0)],
@@ -115,7 +115,7 @@ def test_cases():
 
 @pytest.fixture
 def expected_outputs():
-    return [expected_no_date, expected_no_time, expected_no_period,
+    return [EXPECTED_NO_DATE, EXPECTED_NO_TIME, expected_no_period,
             expected_one_period, expected_two_periods,
             expected_relative_time]
 
@@ -127,7 +127,7 @@ def test_no_date(test_cases, monkeypatch):
 
     Args:
         input_case_no_date: strings containing no date.
-        expected_no_date: expected output of the funtion, False.
+        EXPECTED_NO_DATE: expected output of the funtion, False.
     """
     controller = Controller()
     no_date_input = test_cases[1]
@@ -135,16 +135,16 @@ def test_no_date(test_cases, monkeypatch):
     for case in no_date_input:
         controller.datetimes()
 
-def test_no_time(input_case_no_time, expected_no_time):
+def test_no_time(input_case_no_time, EXPECTED_NO_TIME):
     """
     Test the get_date function for cases where no time is given.
 
     Args:
         input_case_no_time: strings containing no time.
-        expected_no_time: expected output of the funtion, False.
+        EXPECTED_NO_TIME: expected output of the funtion, False.
     """
     for case in input_case_no_time:
-        assert get_date(case) == expected_no_time
+        assert get_date(case) == EXPECTED_NO_TIME
 
 def test_no_period(input_case_no_period, expected_no_period):
     """
