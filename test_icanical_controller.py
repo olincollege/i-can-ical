@@ -48,7 +48,7 @@ input_case_no_date = (
 expected_no_date = (
     [datetime(this_year, this_month, today, 15, 0), 
     datetime(this_year, this_month, today, 15, 0)],
-    [datetime(this_year, this_month, today, 10, 0), 
+    [datetime(this_year, this_month, today, 10, 0),
     datetime(this_year, this_month, today, 11, 0)],
     False,
     [datetime(this_year, this_month, today, 10, 0), 
@@ -59,7 +59,7 @@ input_case_no_period = (
     [header_no_time, "December 12 at 4"],
     [header_no_time, "December 12 from 11 to 3"])
 expected_no_period = (
-    [datetime(this_year, 12, 12, 16, 0), 
+    [datetime(this_year, 12, 12, 16, 0),
     datetime(this_year, 12, 12, 17, 0)],\
     [datetime(this_year, 12, 12, 11, 0),\
     datetime(this_year, 12, 12, 15, 0)],
@@ -93,7 +93,7 @@ input_two_periods = (
 expected_two_periods = (
     [datetime(this_year, 1, 1, 10, 0),
     datetime(this_year, 1, 1, 15, 0)],
-    [datetime(this_year, 12, 12, 10, 0), 
+    [datetime(this_year, 12, 12, 10, 0),
     datetime(this_year, 12, 12, 11, 0)],
     [datetime(this_year, 1, 1, 8, 0),
     datetime(this_year, 1, 1, 15, 0)],
@@ -141,7 +141,7 @@ def test_no_date():
 
     Args:
         input_case_no_date: strings containing no date.
-        expected_no_date: expected output of the funtion, False.
+        EXPECTED_NO_DATE: expected output of the funtion, False.
     """
     # Create instance of controller
     controller = Controller()
