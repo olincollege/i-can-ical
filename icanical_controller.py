@@ -53,12 +53,11 @@ class Controller():
         """
         # calls get_date to find the date from the body text
         date = get_date(self._body)
-        print(date)
 
         # if the body doesn't have a date in it, checks the header for a date
         if date==False:
             date = get_date(self._header)
-
+            
         return date
 
     def check_inbox(self, username, password):
