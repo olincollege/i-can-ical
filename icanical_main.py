@@ -8,6 +8,7 @@ import icanical_view
 from send_error_mail import send_error_mail
 
 
+
 def main():
     """
     Takes a username and password for an email account to use as a bot.
