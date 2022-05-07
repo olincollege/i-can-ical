@@ -1,6 +1,6 @@
 layout: index
 title: "Setup Instructions"
-permalink: /setup-instructions/
+permalink: /docs/setup-instructions/
 
 # Setup Intructions
 
