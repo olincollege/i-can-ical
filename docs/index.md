@@ -1,3 +1,6 @@
+---
+permalink: /about/
+---
 # i-can-ical
 ## An interactive automated calendar creator
 ### Brought to you by Isha Goyal, Malvina Clavering, and Philip Post
