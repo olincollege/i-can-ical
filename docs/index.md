@@ -6,7 +6,7 @@ Have you ever been frustrated by the process of receiving an email about an even
 
 # Setup Instructions
 
-[Setup Instructions](https://olincollege.github.io/i-can-ical/docs/setup-instructions.html)
+[Setup Instructions](https://olincollege.github.io/i-can-ical/setup-instructions/)
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
