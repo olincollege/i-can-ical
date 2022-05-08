@@ -1,5 +1,7 @@
+---
 layout: page
-title: "Setup"
-permalink: /Setup/
+title: "Setup Instructions"
+permalink: /setup-instructions/
+---
 
 # How to set up
