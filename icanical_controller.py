@@ -40,7 +40,7 @@ class Controller():
 
     @property
     def header(self):
-        """ 
+        """
         Define property so value of header can be accessed from outside
         class.
 
@@ -67,7 +67,7 @@ class Controller():
         # if the body doesn't have a date in it, checks the header for a date
         if not date:
             date = get_date(self._header)
-            
+
         return date
 
     def check_inbox(self, username, password):
@@ -75,7 +75,7 @@ class Controller():
         Run the get_mail funtion to start searching for new emails, read new
         email to extract header, sender and body as strings. Assign these to the
         recipient, header and body strings.
-        
+
         Args:
             username: string that is the username of the ical creator's account.
             password: a string that is the password of the ical creator's
@@ -265,11 +265,9 @@ def get_date(text):
             #choose the closest proximity time to date
             time_extract = \
                 time_extract[index_distances.index(min(index_distances))]
-
         else:
             # if there is no date just choose the first time
             time_extract = time_extract[0]
-
         # test if there is a seperator in the time
         sep_check = "-" in time_extract or "–" in time_extract or " to " in \
             str.lower(time_extract)
@@ -304,6 +302,13 @@ def get_date(text):
             end_date = parse(date_extract[0] + " " + \
                 end_time, settings={'PREFER_DATES_FROM': 'future'})
 
+            # if the date doesn't exist make sure the day is today
+            if date_exist == False:
+                if bool(re.search(r"12.*am", start_time)) == False:
+                    start_date = start_date.replace(day = current_date.day)
+                if bool(re.search(r"12.*am", end_time)) == False:
+                    end_date = end_date.replace(day = current_date.day )
+
             # make sure the year is current
             start_date = start_date.replace(year = current_date.year)
 
@@ -322,6 +327,13 @@ def get_date(text):
                 settings={'PREFER_DATES_FROM': 'future'})
 
             end_date = start_date + timedelta(hours=1)
+
+            # if the date doesn't exist make sure the day is today
+            if date_exist == False:
+                # except if a time is 12am do the next day
+                if bool(re.search(r"12.*am", start_time)) == False:
+                    start_date = start_date.replace(day = current_date.day)
+                    end_date = end_date.replace(day = current_date.day)
 
             # make sure the year is current
             start_date = start_date.replace(year = current_date.year)
