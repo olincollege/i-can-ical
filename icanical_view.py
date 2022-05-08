@@ -1,5 +1,5 @@
 """
-The view for ican ical.
+The view for i-can-ical.
 """
 from datetime import datetime
 import email
