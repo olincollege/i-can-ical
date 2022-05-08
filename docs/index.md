@@ -22,6 +22,8 @@ All other packages are from the python standard library and are ready to use. Yo
 # Running the Program
 Once you have dowloaded the code, run the icanical_main.py from a terminal. The program is now listening to the inbox you created and will send an ical for any new email that appears. To use this program to automatically generate an ical, simply send or forward any email containing a text that has a meeting time in either the body or the subject line. You should receive a reply with an ical attachment, you will also see a printed output with "ical invite sent" if everything worked properly. If the date and time cannot be detected, you will receive an email saying "iCal could not be created."
 
+![](Screenshot 2022-05-08 162935.png)   ![](Screenshot 2022-05-08 163057.png)
+
 # Assumptions and Limitations
 
 While i-can-ical has a fairly robust logic that will capture most dates and times, there are a few limitations and key assumptions. Remember that the program will not work if there is no time detected, so a message with only a date will not be enough. If no date is given, the default date is today. The program also defaults to pm if no am or pm marker is detected; for a range of times, the later time will default to pm and the earlier time will got to am or pm based on if the numerical value is greater than or less than the second time. Another important assumption is that all dates will be set to the current year, so note that creating event times around new years may result in an inaccurate date. You can specify relative times in the text, such as "today" or "tomorrow", but weekdays without a date will not be accurately captured. 
