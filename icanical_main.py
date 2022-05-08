@@ -8,6 +8,7 @@ import icanical_view
 from send_error_mail import send_error_mail
 
 
+
 def main():
     """
     Takes a username and password for an email account to use as a bot.
@@ -19,7 +20,8 @@ def main():
     password = input("Enter a Bot Email Password: ")
     while True:
         # starting the controller makes the bot start waiting for a new email
-        controller = icanical_controller.Controller(username,password)
+        controller = icanical_controller.Controller()
+        controller.check_inbox(username, password)
 
         # Once an email is received, try the rest of the code
         try:

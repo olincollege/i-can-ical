@@ -4,17 +4,16 @@ Controller for our python code.
 Gets input for the header, sender, and body from the user. Creates instance of
 model.
 """
-# import the regex package for searching for dates
-import re
-# import a function to convert strings to dates
-from dateparser import parse
 # import a function to add time
 from datetime import timedelta
 from datetime import date
+# import the regex package for searching for dates
+import re
 import imaplib
 from nntplib import decode_header
 import email
-import re
+# import a function to convert strings to dates
+from dateparser import parse
 
 class Controller():
     """
@@ -24,22 +23,32 @@ class Controller():
     model.
     """
 
-    def __init__(self, username, password):
-        [header, sender, body] = get_mail(username, password)
-        self._recipient = sender
-        self._header = header
-        self._body = body
+    def __init__(self):
+        self._recipient = None
+        self._header = None
+        self._body = None
 
-    # defines a property so header and sender can be accessed later
     @property
     def recipient(self):
+        """ 
+        Define property so value of recipient can be accessed from outside
+        class.
+
+        Recipient is the intended recipient/attendee for the ical.
+        """
         return self._recipient
 
     @property
     def header(self):
+        """ 
+        Define property so value of header can be accessed from outside
+        class.
+
+        Header is the name of the event (gotten from the subject line of the
+        forwarded email).
+        """
         return self._header
 
-    # does this function also account for start and end times, or only dates? also, how do we incorporate the am/pm stuff? 
     def datetimes(self):
         """
         Returns the starting and ending date and time found in the text.
@@ -56,17 +65,37 @@ class Controller():
         date = get_date(self._body)
 
         # if the body doesn't have a date in it, checks the header for a date
-        if date==False:
+        if not date:
             date = get_date(self._header)
-
+            
         return date
 
+    def check_inbox(self, username, password):
+        """
+        Run the get_mail funtion to start searching for new emails, read new
+        email to extract header, sender and body as strings. Assign these to the
+        recipient, header and body strings.
+        
+        Args:
+            username: string that is the username of the ical creator's account.
+            password: a string that is the password of the ical creator's
+                account.
+        Returns:
+            a list with email header, sender, and body as strings.
+        """
+        [header, sender, body] = get_mail(username, password)
+        self._header = header
+        self._recipient = sender
+        self._body = body
+        return [header, sender, body]
 
-# helper function for get_date
+
 def set_am_pm(start_time, end_time):
     """
     Takes two strings representing hour increments and determines if they
     should be am or pm.
+
+    This is a helper function for get_date().
 
     Args:
         start_time: a string representing the start of a time range
@@ -125,12 +154,12 @@ def set_am_pm(start_time, end_time):
         # check if there is one in the start time but not the end
         if is_am_pm_end is False and is_am_pm_start is True:
             if end_int == 12:
-                if is_pm_start == True:
+                if is_pm_start is True:
                     end_time += " am"
                 else:
                     end_time += " pm"
             elif start_int == 12:
-                if is_pm_start == True:
+                if is_pm_start is True:
                     end_time += " pm"
                 else:
                     end_time += " am"
@@ -180,7 +209,8 @@ def get_date(text):
     date_exist = True
 
     # create the regex for finding time
-    time_regex = r"(?:\d+:?\d*\s*(?:AM|PM)?\s*(?:-|–|to)\s*\d+:?\d*\s*(?:AM|PM)?)" +\
+    time_regex = \
+    r"(?:\d+:?\d*\s*(?:AM|PM)?\s*(?:-|–|to)\s*\d+:?\d*\s*(?:AM|PM)?)" +\
     r"|(?:\d+:?\d*\s*(?:AM|PM))|" +\
     r"(?<=at)\s*\d{1,2}:?\d*(?!.*(?:pm|am|-|–|to))"
 
@@ -233,24 +263,28 @@ def get_date(text):
                 index_distances.append(abs(date_index - time_index))
 
             #choose the closest proximity time to date
-            time_extract = time_extract[index_distances.index(min(index_distances))]
+            time_extract = \
+                time_extract[index_distances.index(min(index_distances))]
 
         else:
             # if there is no date just choose the first time
             time_extract = time_extract[0]
 
         # test if there is a seperator in the time
-        sep_check = "-" in time_extract or "–" in time_extract or " to " in str.lower(time_extract)
+        sep_check = "-" in time_extract or "–" in time_extract or " to " in \
+            str.lower(time_extract)
 
         # find the current year so that the date is correct
         current_date = date.today()
 
         if sep_check is True:
             start_time_regex = r"(?:\d+:?\d*\s*(?:am|pm)?\s*)(?=-|–|to)"
-            end_time_regex = r"(?:(?<=-)|(?<=–)|(?<=to))(?:\s*\d+:?\d*\s*(?:am|pm)?)"
+            end_time_regex = \
+                r"(?:(?<=-)|(?<=–)|(?<=to))(?:\s*\d+:?\d*\s*(?:am|pm)?)"
 
             # take the time before the separator
-            start_time = re.findall(start_time_regex, time_extract, re.IGNORECASE)
+            start_time = re.findall(start_time_regex, time_extract, \
+                re.IGNORECASE)
             start_time = start_time[0]
 
             # take the time after the seperator
@@ -265,8 +299,10 @@ def get_date(text):
             end_time = set_times[1]
 
             # create the start and end date
-            start_date = parse(date_extract[0] + " " + start_time, settings={'PREFER_DATES_FROM': 'future'})
-            end_date = parse(date_extract[0] + " " + end_time, settings={'PREFER_DATES_FROM': 'future'})
+            start_date = parse(date_extract[0] + " " + \
+                start_time, settings={'PREFER_DATES_FROM': 'future'})
+            end_date = parse(date_extract[0] + " " + \
+                end_time, settings={'PREFER_DATES_FROM': 'future'})
 
             # make sure the year is current
             start_date = start_date.replace(year = current_date.year)
@@ -282,7 +318,8 @@ def get_date(text):
             if "am" not in str.lower(start_time) and "pm" not in str.lower(start_time):
                 start_time += " pm"
 
-            start_date = parse(date_extract[0] + " " + start_time, settings={'PREFER_DATES_FROM': 'future'})
+            start_date = parse(date_extract[0] + " " + start_time, \
+                settings={'PREFER_DATES_FROM': 'future'})
 
             end_date = start_date + timedelta(hours=1)
 
@@ -318,10 +355,12 @@ def get_mail(username, password):
     # select the folder we want to read mail from
     mail.select('Inbox')
 
-    # searches for mail with no filter, typ tells if the request was valid and data is the id's of the emails
+    # searches for mail with no filter, typ tells if the request was valid and
+    # data is the id's of the emails
     (typ, data) = mail.search(None, "ALL")
 
-    # select the id's of the emails from the list and separate the id's into separate list elements
+    # select the id's of the emails from the list and separate the id's into
+    # separate list elements
     mail_ids = data[0]
     mail_ids = mail_ids.split()
 
@@ -351,23 +390,26 @@ def get_mail(username, password):
             # select the folder we want to read mail from
             mail.select('Inbox')
 
-            # searches for mail with no filter, typ tells if the request was valid and data is the id's of the emails
+            # searches for mail with no filter, typ tells if the request was
+            # valid and data is the id's of the emails
             (typ, data) = mail.search(None, "ALL")
 
-            # select the id's of the emails from the list and separate the id's into separate list elements
+            # select the id's of the emails from the list and separate the id's
+            # into separate list elements
             mail_ids = data[0]
             mail_ids = mail_ids.split()
 
             # fetch the first email, RFC822 is the internet protocol
             (typ, data) = mail.fetch(mail_ids[-1], '(RFC822)')
-            # data is a list containing a tuple then bytes the main parts of the email
-            # are located in the second item in the tuple
+            # data is a list containing a tuple then bytes the main parts of
+            # the email are located in the second item in the tuple
 
 
             # parse the email in bytes into a message object
             email_message = email.message_from_bytes(data[0][1])
         except:
-            # the bot may have been logged out so if scraping fails retry the login
+            # the bot may have been logged out so if scraping fails retry the
+            # login
 
             # define the encrypted connection path to gmail
             mail = imaplib.IMAP4_SSL("imap.gmail.com", port = 993)
@@ -377,17 +419,19 @@ def get_mail(username, password):
             # select the folder we want to read mail from
             mail.select('Inbox')
 
-            # searches for mail with no filter, typ tells if the request was valid and data is the id's of the emails
+            # searches for mail with no filter, typ tells if the request was
+            # valid and data is the id's of the emails
             (typ, data) = mail.search(None, "ALL")
 
-            # select the id's of the emails from the list and separate the id's into separate list elements
+            # select the id's of the emails from the list and separate the id's
+            # into separate list elements
             mail_ids = data[0]
             mail_ids = mail_ids.split()
 
             # fetch the first email, RFC822 is the internet protocol
             (typ, data) = mail.fetch(mail_ids[-1], '(RFC822)')
-            # data is a list containing a tuple then bytes the main parts of the email
-            # are located in the second item in the tuple
+            # data is a list containing a tuple then bytes the main parts of
+            # the email are located in the second item in the tuple
 
 
             # parse the email in bytes into a message object
