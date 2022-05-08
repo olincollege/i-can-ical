@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Setup Instructions"
-permalink: /setup-instructions/
+permalink: /i-can-ical/setup-instructions/
 ---
 
 # How to set up
