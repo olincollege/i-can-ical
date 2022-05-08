@@ -7,7 +7,7 @@ Have you ever been frustrated by the process of receiving an email about an even
 
 # Setup
 
-See also: (project README)[https://github.com/olincollege/i-can-ical/blob/main/README.md]
+See also: [project README](https://github.com/olincollege/i-can-ical/blob/main/README.md)
 
 ### Create Bot Email Account
 To begin using i-can-ical, you first need to set up a way for the program to send you emails. This project uses a gmail account that allows less secure app access. If you don't have the password to youcanical@gmail.com, which is the account we used, you will need to create your own email account for the bot to listen on. We will assume this is a gmail account for these instructions. Once you have created your gmail account, go to the account settings, navigate to __security__, then __turn on less secure app access__. Remember your username and password or store them in a secure place.
