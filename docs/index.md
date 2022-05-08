@@ -17,5 +17,11 @@ The program uses the datetparser package to extract dates and times from natural
 ```
 pip install dateparser
 ```
+All other packages are from the python standard library and are ready to use. You can now begin generating ical files for yourself or any user with the email address for the bot.
 
-### 
+# Running the Program
+Once you have dowloaded the code, run the icanical_main.py from a terminal. The program is now listening to the inbox you created and will send an ical for any new email that appears. To use this program to automatically generate an ical, simply send or forward any email containing a text that has a meeting time in either the body or the subject line.
+
+# Assumptions and Limitations
+
+While i-can-ical has a fairly robust parsing logic that will capture most dates and times, there are a few limitations and key assumptions. Remember that the 
