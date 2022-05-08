@@ -7,38 +7,15 @@ Have you ever been frustrated by the process of receiving an email about an even
 
 # Setup
 
-[Setup Instructions](https://olincollege.github.io/i-can-ical/setup-instructions/)
+See also: (project README)[https://github.com/olincollege/i-can-ical/blob/main/README.md]
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Create Bot Email Account
+To begin using i-can-ical, you first need to set up a way for the program to send you emails. This project uses a gmail account that allows less secure app access. If you don't have the password to youcanical@gmail.com, which is the account we used, you will need to create your own email account for the bot to listen on. We will assume this is a gmail account for these instructions. Once you have created your gmail account, go to the account settings, navigate to __security__, then __turn on less secure app access__. Remember your username and password or store them in a secure place.
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+### Install Dateparser
+The program uses the datetparser package to extract dates and times from natural language. To install dateparser, use the following command:
+```
+pip install dateparser
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/olincollege/i-can-ical/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+### 
