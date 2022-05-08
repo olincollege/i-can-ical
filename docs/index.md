@@ -21,11 +21,14 @@ All other packages are from the python standard library and are ready to use. Yo
 
 # Running the Program
 Once you have dowloaded the code, run the icanical_main.py from a terminal. The program is now listening to the inbox you created and will send an ical for any new email that appears. To use this program to automatically generate an ical, simply send or forward any email containing a text that has a meeting time in either the body or the subject line. You should receive a reply with an ical attachment, you will also see a printed output with "ical invite sent" if everything worked properly. If the date and time cannot be detected, you will receive an email saying "iCal could not be created."
-### Step 1: Run the Main Program in Terminal and log in
+### Step 1: Run the Main Program in Terminal
+__You will be prompted to log in__
 ![](assets/run_main.png)
 ### Step 2: Send Email to Bot
+__You can send your own email or forward one from your inbox__
 ![](assets/Screenshot 2022-05-08 162935.png)
 ### Step 3: Receive iCal Attachment
+__Just open the attachment to add it to your calendar__
 ![](assets/Screenshot 2022-05-08 163057.png)
 
 # Assumptions and Limitations
