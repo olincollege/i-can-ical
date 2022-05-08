@@ -54,7 +54,6 @@ class Controller():
         """
         # calls get_date to find the date from the body text
         date = get_date(self._body)
-        print(date)
 
         # if the body doesn't have a date in it, checks the header for a date
         if date==False:
@@ -188,6 +187,7 @@ def get_date(text):
     # attempt to find the times located in the body text
     try:
         time_extract = re.findall(time_regex, text, re.IGNORECASE)
+
         # if the time is blank then there is no time
         if time_extract[0] == "":
             time_exist = False
@@ -218,6 +218,15 @@ def get_date(text):
         if date_exist is True:
             date_index = text.index(date_extract[0])
             index_distances = []
+
+            # ideally, we want to only use times with markers so we search for those
+            marker_times = []
+            for times in time_extract:
+                if "am" in times.lower() or "pm" in times.lower():
+                    marker_times.append(times)
+            # if there are any marker times make it the time list
+            if len(marker_times) > 0:
+                time_extract = marker_times
             # find the index distance of each time in the list
             for times in time_extract:
                 time_index = text.index(times)
@@ -270,7 +279,6 @@ def get_date(text):
             # if there is no end time create a 1 hour time slot
             start_time = time_extract
 
-
             if "am" not in str.lower(start_time) and "pm" not in str.lower(start_time):
                 start_time += " pm"
 
@@ -280,9 +288,7 @@ def get_date(text):
 
             # make sure the year is current
             start_date = start_date.replace(year = current_date.year)
-
             end_date = end_date.replace(year = current_date.year)
-
             return [start_date,end_date]
     else:
         # return a boolean showing that there is no date/time
@@ -332,8 +338,14 @@ def get_mail(username, password):
     reference_subject = decode_header(email_message["Subject"])
     subject = reference_subject
 
+    # decode the email sender for reference
+    reference_sender = decode_header(email_message.get("From"))
+    # use regex to extract the email address
+    reference_sender = re.findall(r"(?:(?<=<).*(?=>))", reference_sender, re.IGNORECASE)[0]
+    sender = reference_sender
+
     # now continuously scrape the first email until it changes
-    while subject == reference_subject:
+    while subject == reference_subject and sender == reference_sender:
         # try to scrape the emails or login again if unsuccessful
         try:
             # select the folder we want to read mail from

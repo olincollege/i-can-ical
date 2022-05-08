@@ -25,6 +25,7 @@ def main():
         try:
             # extract the start time from the email
             start_time = controller.datetimes()[0]
+
             # extract the end time from the email
             end_time = controller.datetimes()[1]
 
