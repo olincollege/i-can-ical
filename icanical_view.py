@@ -11,6 +11,7 @@ import smtplib
 import ssl
 import icalendar as ical
 
+
 class View():
     """
     The view for ican-ical draws from the model to create and send an ics file
@@ -39,13 +40,15 @@ class View():
         sends the ical.
         """
         create_ical(self._filepath, self._model)
-        send_invite(self._filepath, self._model, self._username, self._password)
+        send_invite(self._filepath, self._model,
+                    self._username, self._password)
         print('ical invite sent')
 
 
 def create_ical(filepath, model):
     """
-    Take parsed data and turn it into an ical. The ical file will be saved [here].
+    Take parsed data and turn it into an ical. The ical file will be saved
+    as a file in this directory.
 
     Args:
         filepath: a string specifying the path to where the ics file should be
@@ -63,7 +66,7 @@ def create_ical(filepath, model):
     cal = ical.Calendar()
     cal.add('prodid', '-//My calendar product//mxm.dk//')
     cal.add('version', '3.0')
-    cal.add('attendee', 'MAILTO:igoyal@olin.edu')
+    cal.add('attendee', f'MAILTO:{recipient}')
 
     # creates an event object
     event = ical.Event()
@@ -89,6 +92,7 @@ def create_ical(filepath, model):
 
     # now the ics file has been created at the specified filepath
     # the function doesn't return anything
+
 
 def send_invite(ical_path, model, sender, password):
     """
@@ -117,8 +121,8 @@ def send_invite(ical_path, model, sender, password):
 
     # add the ical attachment to the email
     attachment = MIMEBase('application', "octet-stream")
-    with open(ical_path, "rb") as f:
-        data = f.read()
+    with open(ical_path, "rb") as file:
+        data = file.read()
     # the data we want as part of the attachment is the text from the ics file
     attachment.set_payload(data)
     # have to encode it to send as an attachment
@@ -127,8 +131,8 @@ def send_invite(ical_path, model, sender, password):
     # adding the header tells it what type of file to expect. this sets the
     # header to the name of the ical file, including the .ics bit, which is
     # what makes it show up as something that can be added to one's calendar
-    attachment.add_header('Content-Disposition', "attachment; filename= %s" % \
-         ical_path)
+    attachment.add_header('Content-Disposition', "attachment; filename= %s" %
+                          f"{name}.ics")
 
     # setup email server
     port = 465  # For SSL
@@ -136,7 +140,7 @@ def send_invite(ical_path, model, sender, password):
     context = ssl.create_default_context()
 
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(sender, password) # login to the bot's email account
+        server.login(sender, password)  # login to the bot's email account
         # converts message back to string so that it's readable in the email
         text = msg.as_string()
-        server.sendmail(sender, model.recipient, text) # sends the mail
+        server.sendmail(sender, model.recipient, text)  # sends the mail

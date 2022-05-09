@@ -3,6 +3,7 @@ Model of i-can-cal. It holds the attributes of an event, which can then be used
 to create and send an ical.
 """
 
+
 class Model():
     """
     Model that holds event information.
@@ -14,7 +15,8 @@ class Model():
         _recipient = a string represting the intended recipient's email address
     """
 
-    def __init__(self, event_name, start_datetime, end_datetime, recipient_email):
+    def __init__(self, event_name, start_datetime, end_datetime,\
+            recipient_email):
         self._name = event_name
         self._start_datetime = start_datetime
         self._end_datetime = end_datetime
@@ -23,7 +25,7 @@ class Model():
     @property
     def name(self):
         """
-        Define property for name. Name is a string representing 
+        Define property for name. Name is a string representing
         the name of the event.
         """
         return self._name
@@ -43,7 +45,7 @@ class Model():
         the end of the event
         """
         return self._end_datetime
-    
+
     @property
     def recipient(self):
         """

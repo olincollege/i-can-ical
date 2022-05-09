@@ -7,6 +7,7 @@ from email.mime.text import MIMEText
 import smtplib
 import ssl
 
+
 def send_error_mail(receiver, sender, password):
     """
     Send an email informing the user that an ical couldn't be created.
@@ -18,7 +19,7 @@ def send_error_mail(receiver, sender, password):
     """
 
     subject = 'iCal could not be created'
-    body = 'Hi, we could not create an ical for your event. Please make sure \
+    body = 'Hi, we could not create an ical for your event. Please make sure\
     your email contains either a date or time.'
 
     msg = MIMEMultipart()
@@ -36,4 +37,4 @@ def send_error_mail(receiver, sender, password):
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender, password)
         text = msg.as_string()
-        server.sendmail(sender, receiver, text) # send email
+        server.sendmail(sender, receiver, text)  # send email

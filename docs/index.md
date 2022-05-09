@@ -1,7 +1,7 @@
 
 # About I Can iCal
 ## An interactive automated calendar creator
-### Brought to you by Isha Goyal, Malvina Clavering, and Philip Post
+### Brought to you by Isha Goyal, Malvina Clavering, and Phillip Post
 
 Have you ever been frustrated by the process of receiving an email about an event and a time, say "Tuesday at 1pm", then having to manually copy all that information into your Outlook calendar at risk of misremembering? Was it Tuesday or Thursday? Why can't people just send an ical? Well now you no longer need to preach the wondrous convenience of ical invites to all these senders of emails, you can just request one from our magical assistant. The I Can iCal program can read through any email and extract the date and time for an event, and will then automatically send you an ical with the correct information. All you need to do is open the .ics attachment to add it to your calendar. No tedious copying necessary!
 
@@ -10,12 +10,20 @@ Have you ever been frustrated by the process of receiving an email about an even
 See also: [project README](https://github.com/olincollege/i-can-ical/blob/main/README.md)
 
 ### Create Bot Email Account
-To begin using I Can iCal, you first need to set up a way for the program to send you emails. This project uses a gmail account that allows less secure app access. If you don't have the password to youcanical@gmail.com, which is the account we used, you will need to create your own email account for the bot to listen on. We will assume this is a gmail account for these instructions. Once you have created your gmail account, go to the account settings, navigate to __security__, then __turn on less secure app access__. Remember your username and password or store them in a secure place.
+To begin using I Can iCal, you first need to set up a way for the program to send you emails. This project uses a gmail account that allows less secure app access. If you don't have the password to youcanical@gmail.com, which is the account we used, you will need to create your own email account for the bot to listen on. We will assume this is a gmail account for these instructions. Once you have created your gmail account, go to the account settings, navigate to __security__, then __turn on less secure app access__. Remember your username and password or store them in a secure place. A warning: this process makes your account more vulnerable, we do not recommend using a personal account as your bot account.
 
 ### Install Dateparser
 The program uses the datetparser package to extract dates and times from natural language. To install dateparser, use the following command:
 ```
 pip install dateparser
+```
+You will also need the email library:
+```
+pip install email
+```
+To create ical files, you will also need the icalendar library:
+```
+pip install icalendar
 ```
 All other packages are from the python standard library and are ready to use. You can now begin generating ical files for yourself or any user with the email address for the bot.
 
@@ -37,3 +45,5 @@ While I Can iCal has a fairly robust logic that will capture most dates and time
 
 Another limitation is that you need to create an account or have the login credentials to an existing account set up for this purpose, which requires some additional work at setup meaning the program is not super easily transferrable. It is also important to note that the program needs to be running for it to work, so anytime you want to use this tool, you need to make sure you start up the program in terminal or have it running constantly.
 
+# Video
+See a more in-depth description of the project [here](https://youtu.be/yIs8783s6K0)

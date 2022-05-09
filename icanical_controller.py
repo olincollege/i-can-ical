@@ -15,12 +15,13 @@ import email
 # import a function to convert strings to dates
 from dateparser import parse
 
+
 class Controller():
     """
     Controller for our python code.
 
-    Gets input for the header, sender, and body from the user. Creates instance of
-    model.
+    Gets input for the header, sender, and body from the user. Creates instance
+    of model.
     """
 
     def __init__(self):
@@ -30,7 +31,7 @@ class Controller():
 
     @property
     def recipient(self):
-        """ 
+        """
         Define property so value of recipient can be accessed from outside
         class.
 
@@ -62,13 +63,13 @@ class Controller():
             is found.
         """
         # calls get_date to find the date from the body text
-        date = get_date(self._body)
+        date_found = get_date(self._body)
 
         # if the body doesn't have a date in it, checks the header for a date
-        if not date:
-            date = get_date(self._header)
+        if not date_found:
+            date_found = get_date(self._header)
 
-        return date
+        return date_found
 
     def check_inbox(self, username, password):
         """
@@ -120,7 +121,8 @@ def set_am_pm(start_time, end_time):
 
     # if either are missing an am or pm marker
     while is_am_pm_start is False or is_am_pm_end is False:
-        # create logical checks if the time is am or pm in loop so they are updated
+        # create logical checks if the time is am or pm in loop so they are
+        # updated
         is_am_start = "am" in str.lower(start_time)
         is_pm_start = "pm" in str.lower(start_time)
         is_am_pm_start = is_am_start is True or is_pm_start is True
@@ -184,7 +186,8 @@ def set_am_pm(start_time, end_time):
                 # if either are missing an am or pm marker
                 end_time += " pm"
 
-    return [start_time,end_time]
+    return [start_time, end_time]
+
 
 def get_date(text):
     """
@@ -210,9 +213,9 @@ def get_date(text):
 
     # create the regex for finding time
     time_regex = \
-    r"(?:\d+:?\d*\s*(?:AM|PM)?\s*(?:-|–|to)\s*\d+:?\d*\s*(?:AM|PM)?)" +\
-    r"|(?:\d+:?\d*\s*(?:AM|PM))|" +\
-    r"(?<=at)\s*\d{1,2}:?\d*(?!.*(?:pm|am|-|–|to))"
+        r"(?:\d+:?\d*\s*(?:AM|PM)?\s*(?:-|–|to)\s*\d+:?\d*\s*(?:AM|PM)?)" +\
+        r"|(?:\d+:?\d*\s*(?:AM|PM))|" +\
+        r"(?<=at)\s*\d{1,2}:?\d*(?!.*(?:pm|am|-|–|to))"
 
     # attempt to find the times located in the body text
     try:
@@ -221,7 +224,7 @@ def get_date(text):
         # if the time is blank then there is no time
         if time_extract[0] == "":
             time_exist = False
-    except:
+    except: # pylint: disable=bare-except
         # if the code ran into an error there is no time
         time_exist = False
 
@@ -237,7 +240,7 @@ def get_date(text):
         if date_extract[0] == "":
             date_exist = False
             date_extract = " "
-    except:
+    except: # pylint: disable=bare-except
         # if the code ran into an error there is no date
         date_exist = False
         date_extract = " "
@@ -249,7 +252,8 @@ def get_date(text):
             date_index = text.index(date_extract[0])
             index_distances = []
 
-            # ideally, we want to only use times with markers so we search for those
+            # ideally, we want to only use times with markers so we search for
+            # those
             marker_times = []
             for times in time_extract:
                 if "am" in times.lower() or "pm" in times.lower():
@@ -262,7 +266,7 @@ def get_date(text):
                 time_index = text.index(times)
                 index_distances.append(abs(date_index - time_index))
 
-            #choose the closest proximity time to date
+            # choose the closest proximity time to date
             time_extract = \
                 time_extract[index_distances.index(min(index_distances))]
         else:
@@ -281,8 +285,8 @@ def get_date(text):
                 r"(?:(?<=-)|(?<=–)|(?<=to))(?:\s*\d+:?\d*\s*(?:am|pm)?)"
 
             # take the time before the separator
-            start_time = re.findall(start_time_regex, time_extract, \
-                re.IGNORECASE)
+            start_time = re.findall(start_time_regex, time_extract,
+                                    re.IGNORECASE)
             start_time = start_time[0]
 
             # take the time after the seperator
@@ -297,47 +301,50 @@ def get_date(text):
             end_time = set_times[1]
 
             # create the start and end date
-            start_date = parse(date_extract[0] + " " + \
-                start_time, settings={'PREFER_DATES_FROM': 'future'})
-            end_date = parse(date_extract[0] + " " + \
-                end_time, settings={'PREFER_DATES_FROM': 'future'})
+            start_date = parse(date_extract[0] + " " +
+                               start_time, settings={'PREFER_DATES_FROM':\
+                                   'future'})
+            end_date = parse(date_extract[0] + " " +
+                             end_time, settings={'PREFER_DATES_FROM':\
+                                 'future'})
 
             # if the date doesn't exist make sure the day is today
-            if date_exist == False:
-                start_date = start_date.replace(day = current_date.day)
-                end_date = end_date.replace(day = current_date.day )
+            if date_exist is False:
+                start_date = start_date.replace(day=current_date.day)
+                end_date = end_date.replace(day=current_date.day)
 
             # make sure the year is current
-            start_date = start_date.replace(year = current_date.year)
+            start_date = start_date.replace(year=current_date.year)
 
-            end_date = end_date.replace(year = current_date.year)
+            end_date = end_date.replace(year=current_date.year)
 
-            return [start_date,end_date]
+            return [start_date, end_date]
 
         else:
             # if there is no end time create a 1 hour time slot
             start_time = time_extract
 
-            if "am" not in str.lower(start_time) and "pm" not in str.lower(start_time):
+            if "am" not in str.lower(start_time) and "pm" not in\
+                    str.lower(start_time):
                 start_time += " pm"
 
-            start_date = parse(date_extract[0] + " " + start_time, \
-                settings={'PREFER_DATES_FROM': 'future'})
+            start_date = parse(date_extract[0] + " " + start_time,
+                               settings={'PREFER_DATES_FROM': 'future'})
 
             end_date = start_date + timedelta(hours=1)
 
             # if the date doesn't exist make sure the day is today
-            if date_exist == False:
-                    start_date = start_date.replace(day = current_date.day)
-                    end_date = end_date.replace(day = current_date.day)
+            if date_exist is False:
+                start_date = start_date.replace(day=current_date.day)
+                end_date = end_date.replace(day=current_date.day)
 
             # make sure the year is current
-            start_date = start_date.replace(year = current_date.year)
-            end_date = end_date.replace(year = current_date.year)
-            return [start_date,end_date]
-    else:
-        # return a boolean showing that there is no date/time
-        return False
+            start_date = start_date.replace(year=current_date.year)
+            end_date = end_date.replace(year=current_date.year)
+            return [start_date, end_date]
+    # return a boolean showing that there is no date/time
+    return False
+
 
 def get_mail(username, password):
     """
@@ -354,11 +361,10 @@ def get_mail(username, password):
     """
 
     # define the encrypted connection path to gmail
-    mail = imaplib.IMAP4_SSL("imap.gmail.com", port = 993)
+    mail = imaplib.IMAP4_SSL("imap.gmail.com", port=993)
 
     # login to the gmail account
     mail.login(username, password)
-
 
     # select the folder we want to read mail from
     mail.select('Inbox')
@@ -377,7 +383,6 @@ def get_mail(username, password):
     # data is a list containing a tuple then bytes the main parts of the email
     # are located in the second item in the tuple
 
-
     # parse the email in bytes into a message object
     email_message = email.message_from_bytes(data[0][1])
 
@@ -388,7 +393,8 @@ def get_mail(username, password):
     # decode the email sender for reference
     reference_sender = decode_header(email_message.get("From"))
     # use regex to extract the email address
-    reference_sender = re.findall(r"(?:(?<=<).*(?=>))", reference_sender, re.IGNORECASE)[0]
+    reference_sender = re.findall(
+        r"(?:(?<=<).*(?=>))", reference_sender, re.IGNORECASE)[0]
     sender = reference_sender
 
     # now continuously scrape the first email until it changes
@@ -412,15 +418,14 @@ def get_mail(username, password):
             # data is a list containing a tuple then bytes the main parts of
             # the email are located in the second item in the tuple
 
-
             # parse the email in bytes into a message object
             email_message = email.message_from_bytes(data[0][1])
-        except:
+        except: # pylint: disable=bare-except
             # the bot may have been logged out so if scraping fails retry the
             # login
 
             # define the encrypted connection path to gmail
-            mail = imaplib.IMAP4_SSL("imap.gmail.com", port = 993)
+            mail = imaplib.IMAP4_SSL("imap.gmail.com", port=993)
 
             # login to the gmail account
             mail.login(username, password)
@@ -440,7 +445,6 @@ def get_mail(username, password):
             (typ, data) = mail.fetch(mail_ids[-1], '(RFC822)')
             # data is a list containing a tuple then bytes the main parts of
             # the email are located in the second item in the tuple
-
 
             # parse the email in bytes into a message object
             email_message = email.message_from_bytes(data[0][1])
@@ -466,6 +470,6 @@ def get_mail(username, password):
     try:
         # if the email has a body this should work fine
         return[subject, sender, body]
-    except:
+    except: # pylint: disable=bare-except
         # if body does not exist return None in its place
         return[subject, sender, None]
