@@ -30,17 +30,18 @@ def main():
             # extract the end time from the email
             end_time = controller.datetimes()[1]
 
-            # plug in all of the extracted parameters into the model so the view can access them
-            event = icanical_model.Model(controller.header, start_time, end_time, controller.recipient)
+            # plug in all of the extracted parameters into the model so the
+            # view can access them
+            event = icanical_model.Model(
+                controller.header, start_time, end_time, controller.recipient)
 
             # the view uses the extracted parameters so create an ical file
             view = icanical_view.View(event, username, password)
             # send an email with the ical attached
             view.send_ical()
-        except:
+        except: # pylint: disable=bare-except
             # if the code fails in any way, send an error email
             send_error_mail(controller.recipient, username, password)
-
 
 
 if __name__ == "__main__":
