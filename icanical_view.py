@@ -63,7 +63,7 @@ def create_ical(filepath, model):
     cal = ical.Calendar()
     cal.add('prodid', '-//My calendar product//mxm.dk//')
     cal.add('version', '3.0')
-    cal.add('attendee', 'MAILTO:igoyal@olin.edu')
+    cal.add('attendee', f'MAILTO:{recipient}')
 
     # creates an event object
     event = ical.Event()
@@ -128,7 +128,7 @@ def send_invite(ical_path, model, sender, password):
     # header to the name of the ical file, including the .ics bit, which is
     # what makes it show up as something that can be added to one's calendar
     attachment.add_header('Content-Disposition', "attachment; filename= %s" % \
-         ical_path)
+         f"{name}.ics")
 
     # setup email server
     port = 465  # For SSL
@@ -140,3 +140,4 @@ def send_invite(ical_path, model, sender, password):
         # converts message back to string so that it's readable in the email
         text = msg.as_string()
         server.sendmail(sender, model.recipient, text) # sends the mail
+        

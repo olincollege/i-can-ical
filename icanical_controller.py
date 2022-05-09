@@ -304,10 +304,8 @@ def get_date(text):
 
             # if the date doesn't exist make sure the day is today
             if date_exist == False:
-                if bool(re.search(r"12.*am", start_time)) == False:
-                    start_date = start_date.replace(day = current_date.day)
-                if bool(re.search(r"12.*am", end_time)) == False:
-                    end_date = end_date.replace(day = current_date.day )
+                start_date = start_date.replace(day = current_date.day)
+                end_date = end_date.replace(day = current_date.day )
 
             # make sure the year is current
             start_date = start_date.replace(year = current_date.year)
@@ -330,8 +328,6 @@ def get_date(text):
 
             # if the date doesn't exist make sure the day is today
             if date_exist == False:
-                # except if a time is 12am do the next day
-                if bool(re.search(r"12.*am", start_time)) == False:
                     start_date = start_date.replace(day = current_date.day)
                     end_date = end_date.replace(day = current_date.day)
 
