@@ -55,3 +55,6 @@ The main function assures that all of this happens in an infinite loop so it nev
 This code was written by Isha Goyal, Malvina Clavering, and Phillip Post. All are students at Olin college of engineering class of 2025. This code is under an Attribution-NonCommercial (CC BY-NC) license.
 
 
+<h2 style="color:#3275a8"> Website </h2>
+
+For more information, visit our website: https://olincollege.github.io/i-can-ical/
