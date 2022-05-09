@@ -17,6 +17,14 @@ The program uses the datetparser package to extract dates and times from natural
 ```
 pip install dateparser
 ```
+You will also need the email library:
+```
+pip install email
+```
+To create ical files, you will also need the icalendar library:
+```
+pip install icalendar
+```
 All other packages are from the python standard library and are ready to use. You can now begin generating ical files for yourself or any user with the email address for the bot.
 
 # Running the Program
@@ -37,3 +45,5 @@ While I Can iCal has a fairly robust logic that will capture most dates and time
 
 Another limitation is that you need to create an account or have the login credentials to an existing account set up for this purpose, which requires some additional work at setup meaning the program is not super easily transferrable. It is also important to note that the program needs to be running for it to work, so anytime you want to use this tool, you need to make sure you start up the program in terminal or have it running constantly.
 
+# Video
+See a more in-depth description of the project [here](https://youtu.be/yIs8783s6K0)
