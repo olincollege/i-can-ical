@@ -18,7 +18,7 @@ def send_error_mail(receiver, sender, password):
     """
 
     subject = 'iCal could not be created'
-    body = 'Hi, we could not create an ical for your event. Please make sure \
+    body = 'Hi, we could not create an ical for your event. Please make sure\
     your email contains either a date or time.'
 
     msg = MIMEMultipart()
