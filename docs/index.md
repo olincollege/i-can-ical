@@ -1,7 +1,7 @@
 
 # About I Can iCal
 ## An interactive automated calendar creator
-### Brought to you by Isha Goyal, Malvina Clavering, and Philip Post
+### Brought to you by Isha Goyal, Malvina Clavering, and Phillip Post
 
 Have you ever been frustrated by the process of receiving an email about an event and a time, say "Tuesday at 1pm", then having to manually copy all that information into your Outlook calendar at risk of misremembering? Was it Tuesday or Thursday? Why can't people just send an ical? Well now you no longer need to preach the wondrous convenience of ical invites to all these senders of emails, you can just request one from our magical assistant. The I Can iCal program can read through any email and extract the date and time for an event, and will then automatically send you an ical with the correct information. All you need to do is open the .ics attachment to add it to your calendar. No tedious copying necessary!
 
